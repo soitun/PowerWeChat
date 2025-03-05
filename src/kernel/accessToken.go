@@ -48,6 +48,14 @@ func NewAccessToken(app ApplicationInterface) (*AccessToken, error) {
 	baseURI := config.GetString("http.base_uri", "/")
 	proxyURI := config.GetString("http.proxy_uri", "")
 
+	objTransport := config.Get("http.transport", nil)
+	var transport http.RoundTripper = nil
+	if objTransport != nil {
+		if t, ok := objTransport.(http.RoundTripper); ok {
+			transport = t
+		}
+	}
+
 	var cacheClient cache.CacheInterface = nil
 	c := config.Get("cache", nil)
 	if c != nil {
@@ -57,7 +65,8 @@ func NewAccessToken(app ApplicationInterface) (*AccessToken, error) {
 	h, err := helper.NewRequestHelper(&helper.Config{
 		BaseUrl: baseURI,
 		ClientConfig: &contract3.ClientConfig{
-			ProxyURI: proxyURI,
+			ProxyURI:  proxyURI,
+			Transport: transport,
 		},
 	})
 	if err != nil {
@@ -247,7 +256,7 @@ func (accessToken *AccessToken) sendRequest(ctx context.Context, credential *obj
 	df := accessToken.HttpHelper.Df().WithContext(ctx).Uri(strEndpoint).
 		Method(accessToken.RequestMethod)
 
-		// 检查是否需要有请求参数配置
+	// 检查是否需要有请求参数配置
 	// set query key values
 	if (*options)["query"] != nil {
 		queries := (*options)["query"].(*object.StringMap)

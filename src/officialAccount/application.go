@@ -38,6 +38,7 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/officialAccount/user"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/officialAccount/user/tag"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/officialAccount/wifi"
+	"net/http"
 )
 
 type OfficialAccount struct {
@@ -111,9 +112,10 @@ type UserConfig struct {
 }
 
 type Http struct {
-	Timeout  float64
-	BaseURI  string
-	ProxyURI string
+	Timeout   float64
+	BaseURI   string
+	ProxyURI  string
+	Transport http.RoundTripper
 }
 
 type Log struct {

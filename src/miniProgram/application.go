@@ -37,6 +37,7 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/virtualPayment"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/wxaCode"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/officialAccount/server"
+	"net/http"
 )
 
 type MiniProgram struct {
@@ -130,9 +131,10 @@ type UserConfig struct {
 }
 
 type Http struct {
-	Timeout  float64
-	BaseURI  string
-	ProxyURI string
+	Timeout   float64
+	BaseURI   string
+	ProxyURI  string
+	Transport http.RoundTripper
 }
 
 type Log struct {

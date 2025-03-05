@@ -3,6 +3,7 @@ package openPlatform
 import (
 	"context"
 	"errors"
+	"net/http"
 
 	"github.com/ArtisanCloud/PowerLibs/v3/cache"
 	"github.com/ArtisanCloud/PowerLibs/v3/logger"
@@ -62,9 +63,10 @@ type UserConfig struct {
 }
 
 type Http struct {
-	Timeout  float64
-	BaseURI  string
-	ProxyURI string
+	Timeout   float64
+	BaseURI   string
+	ProxyURI  string
+	Transport http.RoundTripper
 }
 
 type Log struct {
