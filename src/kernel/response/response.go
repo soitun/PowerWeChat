@@ -13,5 +13,5 @@ func LogResponse(logger contract2.LoggerInterface, response *http.Response) {
 	output.Write([]byte("response content:"))
 	dumpRes, _ := httputil.DumpResponse(response, true)
 	output.Write(dumpRes)
-	logger.Info(output.String())
+	logger.Debug(output.String())
 }

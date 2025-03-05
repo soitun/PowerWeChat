@@ -48,6 +48,14 @@ func NewAccessToken(app ApplicationInterface) (*AccessToken, error) {
 	baseURI := config.GetString("http.base_uri", "/")
 	proxyURI := config.GetString("http.proxy_uri", "")
 
+	objTransport := config.Get("http.transport", nil)
+	var transport http.RoundTripper = nil
+	if objTransport != nil {
+		if t, ok := objTransport.(http.RoundTripper); ok {
+			transport = t
+		}
+	}
+
 	var cacheClient cache.CacheInterface = nil
 	c := config.Get("cache", nil)
 	if c != nil {
@@ -57,7 +65,8 @@ func NewAccessToken(app ApplicationInterface) (*AccessToken, error) {
 	h, err := helper.NewRequestHelper(&helper.Config{
 		BaseUrl: baseURI,
 		ClientConfig: &contract3.ClientConfig{
-			ProxyURI: proxyURI,
+			ProxyURI:  proxyURI,
+			Transport: transport,
 		},
 	})
 	if err != nil {
@@ -247,7 +256,7 @@ func (accessToken *AccessToken) sendRequest(ctx context.Context, credential *obj
 	df := accessToken.HttpHelper.Df().WithContext(ctx).Uri(strEndpoint).
 		Method(accessToken.RequestMethod)
 
-		// 检查是否需要有请求参数配置
+	// 检查是否需要有请求参数配置
 	// set query key values
 	if (*options)["query"] != nil {
 		queries := (*options)["query"].(*object.StringMap)
@@ -349,24 +358,27 @@ func (accessToken *AccessToken) OverrideGetMiddlewareOfLog() {
 	accessToken.GetMiddlewareOfLog = func(logger contract2.LoggerInterface) contract3.RequestMiddleware {
 		return func(handle contract3.RequestHandle) contract3.RequestHandle {
 			return func(request *http.Request) (response *http.Response, err error) {
-				logger := logger.WithContext(request.Context())
-
-				// 此处请求前后日志根据 log 配置中的 level 判断是否打印
-				request2.LogRequest(logger, request)
-
+				defer func() {
+					config := (accessToken.App).GetConfig()
+					debug := config.GetBool("http_debug", false)
+					if debug {
+						logger := logger.WithContext(request.Context())
+						// 此处请求前后日志根据 log 配置中的 level 判断是否打印
+						request2.LogRequest(logger, request)
+						if response != nil {
+							response2.LogResponse(logger, response)
+						}
+					}
+				}()
 				response, err = handle(request)
 				if err != nil {
 					return response, err
 				}
-
-				response2.LogResponse(logger, response)
-
 				return
 			}
 		}
 	}
 }
-
 func (accessToken *AccessToken) OverrideGetEndpoint() {
 	accessToken.GetEndpoint = func() (string, error) {
 		if accessToken.EndpointToGetToken == "" {
