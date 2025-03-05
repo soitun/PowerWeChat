@@ -220,6 +220,7 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 			"timeout":   timeout,
 			"base_uri":  baseURI,
 			"proxy_uri": userConfig.Http.ProxyURI,
+			"transport": userConfig.Http.Transport,
 		},
 		"log": &object.HashMap{
 			"driver": userConfig.Log.Driver,
