@@ -114,7 +114,7 @@ type Http struct {
 	Timeout   float64
 	BaseURI   string
 	ProxyURI  string
-	Transport *http.Transport
+	Transport http.RoundTripper
 }
 
 func NewPayment(config *UserConfig) (*Payment, error) {
