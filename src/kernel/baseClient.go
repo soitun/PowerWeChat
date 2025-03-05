@@ -448,17 +448,22 @@ func (client *BaseClient) OverrideGetMiddlewareOfLog() {
 	client.GetMiddlewareOfLog = func(logger contract2.LoggerInterface) contract.RequestMiddleware {
 		return func(handle contract.RequestHandle) contract.RequestHandle {
 			return func(request *http.Request) (response *http.Response, err error) {
-				logger = logger.WithContext(request.Context())
-
-				// 此处请求前后日志根据 log 配置中的 level 判断是否打印
-				request2.LogRequest(logger, request)
-
+				config := (*client.App).GetConfig()
+				defer func() {
+					debug := config.GetBool("http_debug", false)
+					if debug {
+						logger := logger.WithContext(request.Context())
+						// 此处请求前后日志根据 log 配置中的 level 判断是否打印
+						request2.LogRequest(logger, request)
+						if response != nil {
+							response2.LogResponse(logger, response)
+						}
+					}
+				}()
 				response, err = handle(request)
 				if err != nil {
 					return response, err
 				}
-				response2.LogResponse(logger, response)
-
 				return
 			}
 		}
