@@ -106,6 +106,8 @@ type UserConfig struct {
 	AppID  string
 	Secret string
 
+	StableTokenMode   bool
+	ForceRefresh      bool
 	RefreshToken      string
 	ComponentAppID    string
 	ComponentAppToken string
@@ -515,9 +517,10 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 
 		"token":               userConfig.Token,
 		"aes_key":             userConfig.AESKey,
-		"refresh_token":       userConfig.RefreshToken,
 		"component_app_id":    userConfig.ComponentAppID,
 		"component_app_token": userConfig.ComponentAppToken,
+		"stable_token_mode":   userConfig.StableTokenMode,
+		"refresh_token":       userConfig.RefreshToken,
 
 		"response_type": userConfig.ResponseType,
 		"http": &object.HashMap{

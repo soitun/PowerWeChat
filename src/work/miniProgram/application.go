@@ -26,6 +26,10 @@ type UserConfig struct {
 	AESKey                string
 	CallbackURL           string
 	Http                  *object.HashMap
+
+	StableTokenMode bool
+	ForceRefresh    bool
+	RefreshToken    string
 }
 
 func NewApplication(config *UserConfig, extraInfos ...*kernel.ExtraInfo) (*Application, error) {

@@ -27,8 +27,11 @@ type Application struct {
 }
 
 type UserConfig struct {
-	AppID  string
-	Secret string
+	AppID           string
+	Secret          string
+	StableTokenMode bool
+	ForceRefresh    bool
+	RefreshToken    string
 
 	ResponseType string
 	Log          Log
@@ -147,8 +150,10 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 
 	config := &object.HashMap{
 
-		"app_id": userConfig.AppID,
-		"secret": userConfig.Secret,
+		"app_id":            userConfig.AppID,
+		"secret":            userConfig.Secret,
+		"stable_token_mode": userConfig.StableTokenMode,
+		"refresh_token":     userConfig.RefreshToken,
 
 		"response_type": userConfig.ResponseType,
 		"log": &object.HashMap{

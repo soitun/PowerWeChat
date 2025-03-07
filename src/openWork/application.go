@@ -35,14 +35,17 @@ type OpenWork struct {
 }
 
 type UserConfig struct {
-	AppID          string
-	Secret         string
-	ProviderCorpID string
-	ProviderSecret string
-	AuthCode       string
-	Token          string
-	AESKey         string
-	CallbackURL    string
+	AppID           string
+	Secret          string
+	ProviderCorpID  string
+	ProviderSecret  string
+	AuthCode        string
+	Token           string
+	AESKey          string
+	CallbackURL     string
+	StableTokenMode bool
+	ForceRefresh    bool
+	RefreshToken    string
 
 	ResponseType string
 	Log          Log
@@ -193,14 +196,16 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 		timeout = userConfig.Http.Timeout
 	}
 	config := &object.HashMap{
-		"app_id":          userConfig.AppID,
-		"secret":          userConfig.Secret,
-		"auth_code":       userConfig.AuthCode,
-		"token":           userConfig.Token,
-		"aes_key":         userConfig.AESKey,
-		"provider_corpid": userConfig.ProviderCorpID,
-		"provider_secret": userConfig.ProviderSecret,
-		"callback_url":    userConfig.CallbackURL,
+		"app_id":            userConfig.AppID,
+		"secret":            userConfig.Secret,
+		"auth_code":         userConfig.AuthCode,
+		"token":             userConfig.Token,
+		"aes_key":           userConfig.AESKey,
+		"provider_corpid":   userConfig.ProviderCorpID,
+		"provider_secret":   userConfig.ProviderSecret,
+		"callback_url":      userConfig.CallbackURL,
+		"stable_token_mode": userConfig.StableTokenMode,
+		"refresh_token":     userConfig.RefreshToken,
 
 		"response_type": userConfig.ResponseType,
 		"http": &object.HashMap{

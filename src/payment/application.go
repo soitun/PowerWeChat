@@ -87,6 +87,10 @@ type UserConfig struct {
 	SubMchID           string
 	Http               Http
 
+	StableTokenMode bool
+	ForceRefresh    bool
+	RefreshToken    string
+
 	ResponseType string
 	Log          Log
 	OAuth        OAuth
@@ -411,6 +415,8 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 		"wechat_pay_serial":    userConfig.WechatPaySerial,
 		"sub_appid":            userConfig.SubAppID,
 		"sub_mch_id":           userConfig.SubMchID,
+		"stable_token_mode":    userConfig.StableTokenMode,
+		"refresh_token":        userConfig.RefreshToken,
 
 		"response_type": userConfig.ResponseType,
 		"log": &object.HashMap{
