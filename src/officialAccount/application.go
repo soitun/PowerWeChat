@@ -89,11 +89,13 @@ type OfficialAccount struct {
 }
 
 type UserConfig struct {
-	AppID        string
-	Secret       string
-	Token        string
-	AESKey       string
-	RefreshToken string
+	AppID           string
+	Secret          string
+	Token           string
+	AESKey          string
+	StableTokenMode bool
+	ForceRefresh    bool
+	RefreshToken    string
 
 	ComponentAppID    string
 	ComponentAppToken string
@@ -449,11 +451,13 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 	}
 	config := &object.HashMap{
 
-		"app_id":        userConfig.AppID,
-		"secret":        userConfig.Secret,
-		"token":         userConfig.Token,
-		"aes_key":       userConfig.AESKey,
-		"refresh_token": userConfig.RefreshToken,
+		"app_id":            userConfig.AppID,
+		"secret":            userConfig.Secret,
+		"token":             userConfig.Token,
+		"aes_key":           userConfig.AESKey,
+		"stable_token_mode": userConfig.StableTokenMode,
+		"force_refresh":     userConfig.ForceRefresh,
+		"refresh_token":     userConfig.RefreshToken,
 
 		"component_app_id":    userConfig.ComponentAppID,
 		"component_app_token": userConfig.ComponentAppToken,

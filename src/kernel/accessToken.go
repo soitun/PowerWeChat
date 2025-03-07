@@ -26,6 +26,8 @@ type AccessToken struct {
 
 	RequestMethod      string
 	EndpointToGetToken string
+	StableTokenMode    bool
+	ForceRefresh       bool
 	QueryName          string
 	Token              *object.HashMap
 	TokenKey           string
@@ -239,8 +241,13 @@ func (accessToken *AccessToken) ApplyToRequest(request *http.Request, requestOpt
 
 func (accessToken *AccessToken) sendRequest(ctx context.Context, credential *object.StringMap) (*response2.ResponseGetToken, error) {
 	key := "json"
-	if accessToken.RequestMethod == http.MethodGet {
-		key = "query"
+	if accessToken.StableTokenMode {
+		accessToken.RequestMethod = http.MethodPost
+	} else {
+		if accessToken.RequestMethod == http.MethodGet {
+			key = "query"
+		}
+
 	}
 	options := &object.HashMap{
 		key: credential,
@@ -269,7 +276,14 @@ func (accessToken *AccessToken) sendRequest(ctx context.Context, credential *obj
 
 	// set body json
 	if (*options)["json"] != nil {
-		df.Json((*options)["json"])
+		jsonData, _ := object.StructToHashMap((*options)["json"])
+
+		// this is for the stable token
+		if accessToken.StableTokenMode && accessToken.ForceRefresh {
+			(*jsonData)["force_refresh"] = true
+		}
+
+		df.Json(jsonData)
 	}
 	//if (*options)["form_params"] != nil {
 	//	df.Json((*options)["form_params"])

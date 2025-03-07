@@ -155,6 +155,10 @@ type UserConfig struct {
 	AESKey      string
 	CallbackURL string
 
+	StableTokenMode bool
+	ForceRefresh    bool
+	RefreshToken    string
+
 	ResponseType string
 	Log          Log
 	OAuth        OAuth
@@ -527,12 +531,14 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 		timeout = userConfig.Http.Timeout
 	}
 	config := &object.HashMap{
-		"corp_id":      userConfig.CorpID,
-		"agent_id":     userConfig.AgentID,
-		"secret":       userConfig.Secret,
-		"token":        userConfig.Token,
-		"aes_key":      userConfig.AESKey,
-		"callback_url": userConfig.CallbackURL,
+		"corp_id":           userConfig.CorpID,
+		"agent_id":          userConfig.AgentID,
+		"secret":            userConfig.Secret,
+		"token":             userConfig.Token,
+		"aes_key":           userConfig.AESKey,
+		"callback_url":      userConfig.CallbackURL,
+		"stable_token_mode": userConfig.StableTokenMode,
+		"refresh_token":     userConfig.RefreshToken,
 
 		"response_type": userConfig.ResponseType,
 		"http": &object.HashMap{

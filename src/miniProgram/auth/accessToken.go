@@ -18,7 +18,16 @@ func NewAccessToken(app kernel.ApplicationInterface) (*AccessToken, error) {
 	}
 
 	// Override fields and functions
-	token.EndpointToGetToken = "https://api.weixin.qq.com/cgi-bin/token"
+	cfg := app.GetConfig()
+	useStableToken := cfg.GetBool("stable_token_mode", false)
+	forceRefresh := cfg.GetBool("force_refresh", false)
+	if useStableToken {
+		token.EndpointToGetToken = "https://api.weixin.qq.com/cgi-bin/stable_token"
+		token.StableTokenMode = true
+		token.ForceRefresh = forceRefresh
+	} else {
+		token.EndpointToGetToken = "https://api.weixin.qq.com/cgi-bin/token"
+	}
 	token.OverrideGetCredentials()
 
 	return token, err
