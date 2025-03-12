@@ -33,6 +33,7 @@ type CallbackMessageHeader struct {
 	CreateTime   int      `xml:"CreateTime" json:"CreateTime"`
 	MsgType      string   `xml:"MsgType" json:"MsgType"`
 	Event        string   `xml:"Event" json:"Event"`
+	SessionForm  string   `xml:"SessionForm" json:"SessionForm"`
 	ChangeType   string   `xml:"ChangeType" json:"ChangeType"`
 	EventKey     string   `xml:"EventKey,omitempty" json:"EventKey,omitempty"`
 	Ticket       string   `xml:"Ticket,omitempty" json:"Ticket,omitempty"`
