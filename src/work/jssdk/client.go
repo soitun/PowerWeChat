@@ -12,7 +12,7 @@ type Client struct {
 	*jssdk.Client
 }
 
-func NewClient(app *kernel.ApplicationInterface) (*Client, error) {
+func NewClient(app kernel.ApplicationInterface) (*Client, error) {
 	jssdkClient, err := jssdk.NewClient(app)
 	if err != nil {
 		return nil, err
@@ -21,7 +21,7 @@ func NewClient(app *kernel.ApplicationInterface) (*Client, error) {
 		jssdkClient,
 	}
 
-	config := (*app).GetConfig()
+	config := app.GetConfig()
 	baseURI := config.GetString("http.base_uri", "/")
 
 	client.TicketEndpoint = baseURI + "/cgi-bin/get_jsapi_ticket"
@@ -33,7 +33,7 @@ func NewClient(app *kernel.ApplicationInterface) (*Client, error) {
 
 func (comp *Client) OverrideGetAppID() {
 	comp.GetAppID = func() string {
-		config := (*comp.BaseClient.App).GetConfig()
+		config := comp.BaseClient.App.GetConfig()
 		return config.GetString("corp_id", "")
 	}
 }

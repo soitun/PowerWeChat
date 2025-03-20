@@ -17,7 +17,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -98,7 +98,7 @@ func (comp *Client) TransactionAppCombine(ctx context.Context, params *request.R
 }
 
 func (comp *Client) PayTransaction(ctx context.Context, entryPoint string, params request.Prepay, result interface{}) (interface{}, error) {
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	if params.GetSpAppId() == "" {
 		appID := config.GetString("app_id", "")
@@ -151,7 +151,7 @@ func (comp *Client) QueryByOutTradeNumber(ctx context.Context, transactionID str
 func (comp *Client) QueryByOutRefundNO(ctx context.Context, OutRefundNO string) (*response.ResponseQueryByOutRefundNO, error) {
 
 	result := &response.ResponseQueryByOutRefundNO{}
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	endpoint := fmt.Sprintf("/v3/refund/domestic/refunds/%s", OutRefundNO)
 	_, err := comp.Request(ctx, endpoint, &object.StringMap{
@@ -165,7 +165,7 @@ func (comp *Client) Query(ctx context.Context, params *object.HashMap) (*respons
 
 	result := &response.ResponseOrder{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	if (*params)["endpoint"] == nil || (*params)["endpoint"].(string) == "" {
 		return nil, errors.New("no query endpoint! ")
@@ -185,7 +185,7 @@ func (comp *Client) Close(ctx context.Context, tradeNo string) (*response2.Respo
 
 	result := &response2.ResponsePayment{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	endpoint := comp.Wrap(fmt.Sprintf("/v3/pay/partner/transactions/out-trade-no/%s/close", tradeNo))
 	_, err := comp.PlainRequest(ctx, endpoint, nil, http.MethodPost, &object.HashMap{

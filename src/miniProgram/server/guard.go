@@ -8,8 +8,8 @@ type Guard struct {
 	*kernel.ServerGuard
 }
 
-func NewGuard(app *kernel.ApplicationInterface) *Guard {
-	//config := (*app).GetContainer().GetConfig()
+func NewGuard(app kernel.ApplicationInterface) *Guard {
+	//config := app.GetContainer().GetConfig()
 
 	guard := &Guard{
 		kernel.NewServerGuard(app),
@@ -24,7 +24,7 @@ func NewGuard(app *kernel.ApplicationInterface) *Guard {
 
 //func (guard *Guard) DecryptEvent(content string) (bufDecrypted []byte, err error) {
 //
-//	encryptor := (*guard.App).GetComponent("Encryptor").(*miniProgram.Encryptor)
+//	encryptor := guard.App.GetComponent("Encryptor").(*miniProgram.Encryptor)
 //
 //	bufDecrypted, cryptErr := encryptor.DecryptData(content)
 //	if cryptErr != nil {

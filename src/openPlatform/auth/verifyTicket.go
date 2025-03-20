@@ -8,13 +8,13 @@ import (
 )
 
 type VerifyTicket struct {
-	App *kernel.ApplicationInterface
+	App kernel.ApplicationInterface
 
 	*kernel.InteractsWithCache
 }
 
-func NewVerifyTicket(app *kernel.ApplicationInterface) (*VerifyTicket, error) {
-	config := (*app).GetContainer().GetConfig()
+func NewVerifyTicket(app kernel.ApplicationInterface) (*VerifyTicket, error) {
+	config := app.GetContainer().GetConfig()
 
 	var cacheClient cache.CacheInterface = nil
 	if (*config)["cache"] != nil {
@@ -60,7 +60,7 @@ func (verifyTicket *VerifyTicket) GetTicket() (ticket string, err error) {
 }
 
 func (verifyTicket *VerifyTicket) getCacheKey() string {
-	config := (*verifyTicket.App).GetConfig()
+	config := verifyTicket.App.GetConfig()
 	return "powerwechat.open_platform.verify_ticket." + config.GetString("app_id", "")
 
 }

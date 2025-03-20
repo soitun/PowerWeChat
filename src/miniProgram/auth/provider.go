@@ -12,5 +12,5 @@ func RegisterProvider(app kernel.ApplicationInterface) (*AccessToken, error) {
 
 func RegisterAuthProvider(app kernel.ApplicationInterface) (*Client, error) {
 
-	return NewClient(&app)
+	return NewClient(app)
 }

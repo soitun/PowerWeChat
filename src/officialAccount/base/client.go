@@ -17,7 +17,7 @@ func (comp *Client) ClearQuota(ctx context.Context) (*response2.ResponseOfficial
 
 	result := &response2.ResponseOfficialAccount{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/clear_quota", &object.HashMap{
 		"appid": config.GetString("app_id", ""),

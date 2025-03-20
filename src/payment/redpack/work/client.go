@@ -13,7 +13,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
 func (comp *Client) SendWorkWX(ctx context.Context, data *request.RequestSendWorkWX) (*response.ResponseSendWorkWX, error) {
 	result := &response.ResponseSendWorkWX{}
 	if data.WXAppID == "" {
-		config := (*comp.App).GetConfig()
+		config := comp.App.GetConfig()
 		data.WXAppID = config.GetString("app_id", "")
 	}
 
@@ -47,7 +47,7 @@ func (comp *Client) QueryWorkWX(ctx context.Context, data *request.RequestQueryW
 	result := &response.ResponseQueryWorkWX{}
 
 	if data.Appid == "" {
-		config := (*comp.App).GetConfig()
+		config := comp.App.GetConfig()
 		data.Appid = config.GetString("app_id", "")
 	}
 

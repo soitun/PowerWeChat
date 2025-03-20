@@ -12,7 +12,7 @@ type Client struct {
 }
 
 func NewClient(app kernel.ApplicationInterface) (*Client, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}

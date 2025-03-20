@@ -10,10 +10,10 @@ import (
 type EchoStrHandler struct {
 	contract.EventHandlerInterface
 
-	App *kernel.ApplicationInterface
+	App kernel.ApplicationInterface
 }
 
-func NewEchoStrHandler(app *kernel.ApplicationInterface) *EchoStrHandler {
+func NewEchoStrHandler(app kernel.ApplicationInterface) *EchoStrHandler {
 	handler := &EchoStrHandler{
 		App: app,
 	}
@@ -23,7 +23,7 @@ func NewEchoStrHandler(app *kernel.ApplicationInterface) *EchoStrHandler {
 
 func (handler *EchoStrHandler) Handle(request *http.Request, header contract.EventInterface, content interface{}) interface{} {
 
-	encryptor := (*handler.App).GetComponent("Encryptor").(*kernel.Encryptor)
+	encryptor := handler.App.GetComponent("Encryptor").(*kernel.Encryptor)
 
 	query := request.URL.Query()
 	strDecrypted := query.Get("echostr")

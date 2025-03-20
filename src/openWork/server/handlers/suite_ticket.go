@@ -12,10 +12,10 @@ import (
 type SuiteTicket struct {
 	contract.EventHandlerInterface
 
-	App *kernel.ApplicationInterface
+	App kernel.ApplicationInterface
 }
 
-func NewSuiteTicket(app *kernel.ApplicationInterface) *SuiteTicket {
+func NewSuiteTicket(app kernel.ApplicationInterface) *SuiteTicket {
 	handler := &SuiteTicket{
 		App: app,
 	}
@@ -28,7 +28,7 @@ func (handler *SuiteTicket) Handle(request *http.Request, header contract.EventI
 	ticket := ev.SuiteTicket
 
 	if ticket != "" {
-		(*handler.App).GetComponent("SuiteTicket").(*suit.SuiteTicket).SetTicket(ticket)
+		handler.App.GetComponent("SuiteTicket").(*suit.SuiteTicket).SetTicket(ticket)
 	}
 
 	return nil

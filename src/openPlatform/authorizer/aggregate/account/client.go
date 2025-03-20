@@ -13,7 +13,7 @@ type Client struct {
 }
 
 func NewClient(app kernel.ApplicationInterface) (*Client, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (comp *Client) Create(ctx context.Context) (*response.ResponseCreate, error
 
 	result := &response.ResponseCreate{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	params := &object.HashMap{
 		"appid": config.GetString("app_id", ""),
 	}
@@ -44,7 +44,7 @@ func (comp *Client) BindTo(ctx context.Context, openAppID string) (*response2.Re
 
 	result := &response2.ResponseOpenPlatform{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	params := &object.HashMap{
 		"appid":      config.GetString("app_id", ""),
 		"open_appid": openAppID,
@@ -61,7 +61,7 @@ func (comp *Client) UnbindFrom(ctx context.Context, openAppID string) (*response
 
 	result := &response2.ResponseOpenPlatform{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	params := &object.HashMap{
 		"appid":      config.GetString("app_id", ""),
 		"open_appid": openAppID,
@@ -78,7 +78,7 @@ func (comp *Client) GetBinding(ctx context.Context) (*response.ResponseGetBindin
 
 	result := &response.ResponseGetBinding{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	params := &object.HashMap{
 		"appid": config.GetString("app_id", ""),
 	}

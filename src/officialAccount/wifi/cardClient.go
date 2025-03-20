@@ -14,7 +14,7 @@ type CardClient struct {
 }
 
 func NewCardClient(app kernel.ApplicationInterface) (*CardClient, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}

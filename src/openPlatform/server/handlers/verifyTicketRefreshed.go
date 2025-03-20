@@ -11,10 +11,10 @@ import (
 type VerifyTicketRefreshed struct {
 	contract.EventHandlerInterface
 
-	App *kernel.ApplicationInterface
+	App kernel.ApplicationInterface
 }
 
-func NewVerifyTicketRefreshed(app *kernel.ApplicationInterface) *VerifyTicketRefreshed {
+func NewVerifyTicketRefreshed(app kernel.ApplicationInterface) *VerifyTicketRefreshed {
 	handler := &VerifyTicketRefreshed{
 		App: app,
 	}
@@ -27,7 +27,7 @@ func (handler *VerifyTicketRefreshed) Handle(request *http.Request, header contr
 	ticket := verifyTicket.ComponentVerifyTicket
 
 	if ticket != "" {
-		(*handler.App).GetComponent("VerifyTicket").(*auth.VerifyTicket).SetTicket(ticket)
+		handler.App.GetComponent("VerifyTicket").(*auth.VerifyTicket).SetTicket(ticket)
 	}
 
 	return nil

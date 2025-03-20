@@ -15,7 +15,7 @@ type Client struct {
 }
 
 func NewClient(app kernel.ApplicationInterface) (*Client, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +107,7 @@ func (comp *Client) UpdateTemplateCard(ctx context.Context, card *power.HashMap)
 	result := &response.ResponseMessageSend{}
 
 	if (*card)["agentid"] == nil || (*card)["agentid"].(int) <= 0 {
-		config := (*comp.BaseClient.App).GetConfig()
+		config := comp.BaseClient.App.GetConfig()
 		(*card)["agentid"] = config.GetInt("agent_id", 0)
 	}
 	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/message/update_template_card", card, nil, nil, result)

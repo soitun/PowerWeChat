@@ -14,7 +14,7 @@ type Client struct {
 }
 
 func NewClient(app kernel.ApplicationInterface) (*Client, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (comp *Client) Get(ctx context.Context) (*response.ResponseMenuGet, error) 
 
 	result := &response.ResponseMenuGet{}
 
-	agentID := (*comp.BaseClient.App).GetConfig().GetInt("agent_id", 0)
+	agentID := comp.BaseClient.App.GetConfig().GetInt("agent_id", 0)
 	_, err := comp.BaseClient.HttpGet(ctx, "cgi-bin/menu/get", &object.StringMap{
 		"agentid": fmt.Sprintf("%d", agentID),
 	}, nil, result)
@@ -41,7 +41,7 @@ func (comp *Client) Create(ctx context.Context, data *request.RequestMenuSet) (*
 
 	result := &response.ResponseMenuCreate{}
 
-	agentID := (*comp.BaseClient.App).GetConfig().GetInt("agent_id", 0)
+	agentID := comp.BaseClient.App.GetConfig().GetInt("agent_id", 0)
 	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/menu/create", data, &object.StringMap{
 		"agentid": fmt.Sprintf("%d", agentID),
 	}, nil, result)

@@ -17,7 +17,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
 // Query MerchantPay to balance.
 // https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3
 func (comp *Client) QueryBalanceOrder(ctx context.Context, partnerTradeNo string) (*response.ResponseGetTransferInfo, error) {
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	result := &response.ResponseGetTransferInfo{}
 
@@ -52,7 +52,7 @@ func (comp *Client) ToBalance(ctx context.Context, data *request.RequestTransfer
 
 	result := &response.ResponseTransferToBalance{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	params, err := object.StructToHashMapWithXML(data)
 	if err != nil {
@@ -73,7 +73,7 @@ func (comp *Client) ToBalance(ctx context.Context, data *request.RequestTransfer
 // Query MerchantPay order to BankCard.
 // https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3
 func (comp *Client) QueryBankCardOrder(ctx context.Context, partnerTradeNo string) (*response.ResponseGetTransferInfo, error) {
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	result := &response.ResponseGetTransferInfo{}
 
@@ -94,7 +94,7 @@ func (comp *Client) ToBankCard(ctx context.Context, data *request.RequestToBankC
 
 	result := &response2.ResponsePayment{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	rsaSigner, err := sign.NewRSASigner(crypto.SHA1)
 	if err != nil {

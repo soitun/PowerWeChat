@@ -18,7 +18,7 @@ type Client struct {
 	*jssdk.Client
 }
 
-func NewClient(app *kernel2.ApplicationInterface) (*Client, error) {
+func NewClient(app kernel2.ApplicationInterface) (*Client, error) {
 	jssdkClient, err := jssdk.NewClient(app)
 	if err != nil {
 		return nil, err
@@ -29,7 +29,7 @@ func NewClient(app *kernel2.ApplicationInterface) (*Client, error) {
 }
 
 func (comp *Client) BridgeConfigForPartner(ctx context.Context, prepayID string, isJson bool) (interface{}, error) {
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	appID := config.GetString("sub_appid", "")
 
 	options := &object.StringMap{
@@ -61,7 +61,7 @@ func (comp *Client) BridgeConfigForPartner(ctx context.Context, prepayID string,
 // https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_4.shtml
 func (comp *Client) BridgeConfig(prepayID string, isJson bool) (interface{}, error) {
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	appID := config.GetString("app_id", "")
 
 	options := &object.StringMap{
@@ -104,7 +104,7 @@ func (comp *Client) SDKConfig(prepayID string) (*object.StringMap, error) {
 
 func (comp *Client) AppConfig(prepayID string) (*object.StringMap, error) {
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	appID := config.GetString("app_id", "")
 	mchID := config.GetString("mch_id", "")
 
@@ -133,7 +133,7 @@ func (comp *Client) AppConfig(prepayID string) (*object.StringMap, error) {
 
 func (comp *Client) ShareAddressConfig(request *http.Request, accessToken string, isJson bool) (interface{}, error) {
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	appID := config.GetString("app_id", "")
 
 	params := &object.StringMap{
@@ -172,7 +172,7 @@ func (comp *Client) ShareAddressConfig(request *http.Request, accessToken string
 
 func (comp *Client) ContractConfig(params *object.StringMap) (*object.StringMap, error) {
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	(*params)["appid"] = config.GetString("app_id", "")
 	(*params)["timestamp"] = fmt.Sprintf("%d", time.Now().Unix())
 	//(*params)["sign"] = support.GenerateSign(params, config.GetString("key", ""), "md5")

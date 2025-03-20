@@ -32,7 +32,7 @@ type BaseClient struct {
 
 	Signer *support.SHA256WithRSASigner
 
-	App   *ApplicationInterface
+	App   ApplicationInterface
 	Token *AccessToken
 
 	GetMiddlewareOfAccessToken        contract.RequestMiddleware
@@ -50,8 +50,8 @@ type UploadContent struct {
 	Value interface{}
 }
 
-func NewBaseClient(app *ApplicationInterface, token *AccessToken) (*BaseClient, error) {
-	config := (*app).GetConfig()
+func NewBaseClient(app ApplicationInterface, token *AccessToken) (*BaseClient, error) {
+	config := app.GetConfig()
 	baseURI := config.GetString("http.base_uri", "/")
 	proxyURI := config.GetString("http.proxy_uri", "")
 	timeout := config.GetFloat64("http.timeout", 5)
@@ -63,7 +63,7 @@ func NewBaseClient(app *ApplicationInterface, token *AccessToken) (*BaseClient, 
 		}
 	}
 	if token == nil {
-		token = (*app).GetAccessToken()
+		token = app.GetAccessToken()
 	}
 
 	h, err := helper.NewRequestHelper(&helper.Config{
@@ -85,7 +85,7 @@ func NewBaseClient(app *ApplicationInterface, token *AccessToken) (*BaseClient, 
 		App:        app,
 		Token:      token,
 	}
-	client.Logger = (*client.App).GetComponent("Logger").(contract2.LoggerInterface)
+	client.Logger = client.App.GetComponent("Logger").(contract2.LoggerInterface)
 
 	// to be setup middleware here
 	client.OverrideGetMiddlewares()
@@ -213,7 +213,7 @@ func (client *BaseClient) HttpUpload(ctx context.Context, url string, files *obj
 	}
 
 	// set debug mode
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 	// 微信如果需要传debug模式
 	debug := config.GetBool("debug", false)
 	if debug {
@@ -255,7 +255,7 @@ func (client *BaseClient) Request(ctx context.Context, url string, method string
 			}
 		}
 
-		config := (*client.App).GetConfig()
+		config := client.App.GetConfig()
 		// 微信如果需要传debug模式
 		debug := config.GetBool("debug", false)
 		if debug {
@@ -330,7 +330,7 @@ func (client *BaseClient) RequestByEncodedData(ctx context.Context, url string, 
 			}
 		}
 
-		config := (*client.App).GetConfig()
+		config := client.App.GetConfig()
 		// 微信如果需要传debug模式
 		debug := config.GetBool("debug", false)
 		if debug {
@@ -397,7 +397,7 @@ func (client *BaseClient) RegisterHttpMiddlewares() {
 	// check invalid access token
 	checkAccessTokenMiddleware := client.GetMiddlewareOfRefreshAccessToken
 
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 	client.HttpHelper.WithMiddleware(
 		accessTokenMiddleware,
 		logMiddleware(client.Logger),
@@ -420,10 +420,10 @@ func (client *BaseClient) OverrideGetMiddlewareOfAccessToken() {
 			// 前置中间件
 			// fmt.Println("获取access token, 在请求前执行")
 
-			accessToken := (*client.App).GetAccessToken()
+			accessToken := client.App.GetAccessToken()
 
 			if accessToken != nil {
-				config := (*client.App).GetContainer().Config
+				config := client.App.GetContainer().Config
 				request, err = accessToken.ApplyToRequest(request, config)
 			}
 
@@ -448,7 +448,7 @@ func (client *BaseClient) OverrideGetMiddlewareOfLog() {
 	client.GetMiddlewareOfLog = func(logger contract2.LoggerInterface) contract.RequestMiddleware {
 		return func(handle contract.RequestHandle) contract.RequestHandle {
 			return func(request *http.Request) (response *http.Response, err error) {
-				config := (*client.App).GetConfig()
+				config := client.App.GetConfig()
 				defer func() {
 					debug := config.GetBool("http_debug", false)
 					if debug {

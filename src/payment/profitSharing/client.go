@@ -14,7 +14,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func (comp *Client) Share(ctx context.Context, param *request.RequestShare) (*re
 	result := &response.ResponseProfitSharingOrder{}
 
 	if param.AppID == "" {
-		config := (*comp.App).GetConfig()
+		config := comp.App.GetConfig()
 		param.AppID = config.GetString("app_id", "")
 	}
 
@@ -66,7 +66,7 @@ func (comp *Client) Return(ctx context.Context, data *request.RequestShareReturn
 
 	result := &response.ResponseProfitSharingReturn{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	params, err := object.StructToHashMapWithXML(data)
 	if err != nil {
@@ -143,7 +143,7 @@ func (comp *Client) AddReceiver(
 
 	result := &response.ResponseProfitSharingAddReceiver{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 	options := &object.HashMap{
 		"appid":           config.GetString("app_id", ""),
 		"type":            receiverType,
@@ -166,7 +166,7 @@ func (comp *Client) DeleteReceiver(ctx context.Context, receiverType string, acc
 
 	result := &response.ResponseProfitSharingDeleteReceiver{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 	options := &object.HashMap{
 		"appid":   config.GetString("app_id", ""),
 		"type":    receiverType,

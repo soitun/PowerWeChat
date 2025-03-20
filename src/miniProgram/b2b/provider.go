@@ -5,7 +5,7 @@ import (
 )
 
 func RegisterProvider(app kernel.ApplicationInterface) (*Client, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	config := app.GetConfig()
 	appKey := config.GetString("app_key", "")
 	sandboxAppKey := config.GetString("sandbox_app_key", "")

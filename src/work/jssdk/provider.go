@@ -6,7 +6,7 @@ import (
 
 func RegisterProvider(app kernel.ApplicationInterface) (*Client, error) {
 
-	jssdkClient, err := NewClient(&app)
+	jssdkClient, err := NewClient(app)
 	if err != nil {
 		return nil, err
 	}

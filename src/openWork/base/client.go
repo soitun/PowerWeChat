@@ -14,7 +14,7 @@ type Client struct {
 //
 //	result := &response.ResponseHandleAuthorize{}
 //
-//	config := (*comp.App).GetConfig()
+//	config := comp.App.GetConfig()
 //
 //	if authCode == "" {
 //		authCode = config.GetString("app_id", "auth_code")
@@ -36,7 +36,7 @@ type Client struct {
 //
 //	result := &response.ResponseGetAuthorizer{}
 //
-//	config := (*comp.App).GetConfig()
+//	config := comp.App.GetConfig()
 //
 //	params := &object.HashMap{
 //		"component_appid":  config.GetString("app_id", ""),
@@ -54,7 +54,7 @@ type Client struct {
 //
 //	result := &response.ResponseGetAuthorizerOption{}
 //
-//	config := (*comp.App).GetConfig()
+//	config := comp.App.GetConfig()
 //
 //	params := &object.HashMap{
 //		"component_appid":  config.GetString("app_id", ""),
@@ -73,7 +73,7 @@ type Client struct {
 //
 //	result := &response2.ResponseOpenPlatform{}
 //
-//	config := (*comp.App).GetConfig()
+//	config := comp.App.GetConfig()
 //
 //	params := &object.HashMap{
 //		"component_appid":  config.GetString("app_id", ""),
@@ -93,7 +93,7 @@ type Client struct {
 //
 //	result := &response2.ResponseOpenPlatform{}
 //
-//	config := (*comp.App).GetConfig()
+//	config := comp.App.GetConfig()
 //
 //	params := &object.HashMap{
 //		"component_appid": config.GetString("app_id", ""),
@@ -112,7 +112,7 @@ type Client struct {
 //
 //	result := &response.ResponseCreatePreAuthorizationCode{}
 //
-//	config := (*comp.App).GetConfig()
+//	config := comp.App.GetConfig()
 //
 //	params := &object.HashMap{
 //		"component_appid": config.GetString("app_id", ""),
@@ -129,7 +129,7 @@ type Client struct {
 //
 //	result := &response2.ResponseOpenPlatform{}
 //
-//	config := (*comp.App).GetConfig()
+//	config := comp.App.GetConfig()
 //
 //	params := &object.HashMap{
 //		"component_appid": config.GetString("app_id", ""),

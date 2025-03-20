@@ -54,7 +54,7 @@ func (client *Client) TransactionVirtual(ctx context.Context, in *request.Virtua
 
 func (client *Client) StartUploadGoods(ctx context.Context, params *request.UploadProductsRequest) (result *response.BaseResp, err error) {
 
-	fmt.Printf("appid: %s, app_key: %s, offer_id: %s \n", (*client.App).GetConfig().GetString("app_id", ""), client.appKey, client.offerId)
+	fmt.Printf("appid: %s, app_key: %s, offer_id: %s \n", client.App.GetConfig().GetString("app_id", ""), client.appKey, client.offerId)
 
 	if err != nil {
 

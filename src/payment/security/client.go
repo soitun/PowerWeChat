@@ -12,7 +12,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func (comp *Client) GetCertificates(ctx context.Context) (*response.ResponseGetC
 // Get RSA Public Key.
 // https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay_yhk.php?chapter=25_7&index=4
 func (comp *Client) GetRSAPublicKey(ctx context.Context) (*response.ResponseGetPublicKey, error) {
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	result := &response.ResponseGetPublicKey{}
 
