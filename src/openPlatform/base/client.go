@@ -18,7 +18,7 @@ func (comp *Client) HandleAuthorize(ctx context.Context, authCode string) (*resp
 
 	result := &response.ResponseHandleAuthorize{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	params := &object.HashMap{
 		"component_appid":    config.GetString("app_id", ""),
@@ -36,7 +36,7 @@ func (comp *Client) GetAuthorizer(ctx context.Context, appID string) (*response.
 
 	result := &response.ResponseGetAuthorizer{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	params := &object.HashMap{
 		"component_appid":  config.GetString("app_id", ""),
@@ -54,7 +54,7 @@ func (comp *Client) GetAuthorizerOption(ctx context.Context, appID string, name 
 
 	result := &response.ResponseGetAuthorizerOption{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	params := &object.HashMap{
 		"component_appid":  config.GetString("app_id", ""),
@@ -73,7 +73,7 @@ func (comp *Client) SetAuthorizerOption(ctx context.Context, appID string, name 
 
 	result := &response2.ResponseOpenPlatform{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	params := &object.HashMap{
 		"component_appid":  config.GetString("app_id", ""),
@@ -93,7 +93,7 @@ func (comp *Client) GetAuthorizers(ctx context.Context, offset int, count int) (
 
 	result := &response.ResponseGetAuthorizers{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	params := &object.HashMap{
 		"component_appid": config.GetString("app_id", ""),
@@ -112,7 +112,7 @@ func (comp *Client) CreatePreAuthorizationCode(ctx context.Context) (*response.R
 
 	result := &response.ResponseCreatePreAuthorizationCode{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	params := &object.HashMap{
 		"component_appid": config.GetString("app_id", ""),
@@ -129,7 +129,7 @@ func (comp *Client) ClearQuota(ctx context.Context) (*response2.ResponseOpenPlat
 
 	result := &response2.ResponseOpenPlatform{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	params := &object.HashMap{
 		"component_appid": config.GetString("app_id", ""),

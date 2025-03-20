@@ -13,7 +13,7 @@ type DeviceClient struct {
 }
 
 func NewDeviceClient(app kernel.ApplicationInterface) (*DeviceClient, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}

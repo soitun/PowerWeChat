@@ -6,7 +6,7 @@ import (
 
 func RegisterProvider(app kernel.ApplicationPaymentInterface) (*Client, error) {
 
-	baseClient, err := kernel.NewBaseClient(&app)
+	baseClient, err := kernel.NewBaseClient(app)
 	if err != nil {
 		return nil, err
 	}

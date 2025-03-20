@@ -8,7 +8,7 @@ type Guard struct {
 	*kernel.ServerGuard
 }
 
-func NewGuard(app *kernel.ApplicationInterface) *Guard {
+func NewGuard(app kernel.ApplicationInterface) *Guard {
 
 	guard := &Guard{
 		kernel.NewServerGuard(app),
@@ -25,7 +25,7 @@ func (guard *Guard) OverrideGetToken() {
 
 	guard.GetToken = func() string {
 
-		encryptor := (*guard.App).GetComponent("Encryptor").(*kernel.Encryptor)
+		encryptor := guard.App.GetComponent("Encryptor").(*kernel.Encryptor)
 
 		return encryptor.GetToken()
 	}

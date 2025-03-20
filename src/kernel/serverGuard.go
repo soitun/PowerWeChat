@@ -45,7 +45,7 @@ type ServerGuard struct {
 	*support.ResponseCastable
 
 	alwaysValidate bool
-	App            *ApplicationInterface
+	App            ApplicationInterface
 
 	IsSafeMode              func(request *http.Request) bool
 	Validate                func(request *http.Request) (*ServerGuard, error)
@@ -60,7 +60,7 @@ type ServerGuard struct {
 	HandleEvent func(request *http.Request, closure func(event contract.EventInterface) interface{}) (*object.HashMap, error)
 }
 
-func NewServerGuard(app *ApplicationInterface) *ServerGuard {
+func NewServerGuard(app ApplicationInterface) *ServerGuard {
 	serverGuard := &ServerGuard{
 		Observable: support.NewObservable(),
 		App:        app,
@@ -103,7 +103,7 @@ func (serverGuard *ServerGuard) OverrideNotify() {
 // 回调配置
 // https://developer.work.weixin.qq.com/document/path/90930
 func (serverGuard *ServerGuard) VerifyURL(request *http.Request) (httpRS *http.Response, err error) {
-	logger := (*serverGuard.App).GetComponent("Logger").(*logger2.Logger)
+	logger := serverGuard.App.GetComponent("Logger").(*logger2.Logger)
 
 	//_, err = serverGuard.Validate(request)
 	//if err != nil {
@@ -124,7 +124,7 @@ func (serverGuard *ServerGuard) VerifyURL(request *http.Request) (httpRS *http.R
 
 // https://developer.work.weixin.qq.com/document/path/90930
 func (serverGuard *ServerGuard) Serve(request *http.Request) (response *http.Response, err error) {
-	logger := (*serverGuard.App).GetComponent("Logger").(*logger2.Logger)
+	logger := serverGuard.App.GetComponent("Logger").(*logger2.Logger)
 	logger.Info("Request received:",
 		"method", request.Method,
 		"uri", request.URL,
@@ -290,7 +290,7 @@ func (serverGuard *ServerGuard) OverrideResolve() {
 
 func (serverGuard *ServerGuard) OverrideGetToken() {
 	serverGuard.GetToken = func() string {
-		config := (*serverGuard.App).GetConfig()
+		config := serverGuard.App.GetConfig()
 		token := config.Get("token", "").(string)
 
 		return token
@@ -388,7 +388,7 @@ func (serverGuard *ServerGuard) buildReply(request *http.Request, to string, fro
 	response = transformedResponse.(string)
 	if serverGuard.IsSafeMode(request) {
 		// tbd log here
-		encryptor := (*serverGuard.App).GetComponent("Encryptor").(*Encryptor)
+		encryptor := serverGuard.App.GetComponent("Encryptor").(*Encryptor)
 		encryptedResponse, err := encryptor.Encrypt(response, "", "")
 		if err == nil {
 			response = string(encryptedResponse)
@@ -483,7 +483,7 @@ func (serverGuard *ServerGuard) shouldReturnRawResponse(request *http.Request) b
 }
 
 func (serverGuard *ServerGuard) DecryptEvent(request *http.Request, content string) (callbackHeader *models.CallbackMessageHeader, err error) {
-	encryptor := (*serverGuard.App).GetComponent("Encryptor").(*Encryptor)
+	encryptor := serverGuard.App.GetComponent("Encryptor").(*Encryptor)
 	query := request.URL.Query()
 	buf, cryptErr := encryptor.Decrypt(
 		[]byte(content),
@@ -511,7 +511,7 @@ func (serverGuard *ServerGuard) DecryptEvent(request *http.Request, content stri
 }
 
 func (serverGuard *ServerGuard) decryptEchoStr(request *http.Request, content string) (decryptMessage string, err error) {
-	encryptor := (*serverGuard.App).GetComponent("Encryptor").(*Encryptor)
+	encryptor := serverGuard.App.GetComponent("Encryptor").(*Encryptor)
 	query := request.URL.Query()
 	buf, cryptErr := encryptor.VerifyUrl(
 		content,
@@ -527,7 +527,7 @@ func (serverGuard *ServerGuard) decryptEchoStr(request *http.Request, content st
 }
 
 func (serverGuard *ServerGuard) decryptMessage(request *http.Request, content string) (callbackHeader *models.CallbackMessageHeader, decryptMessage interface{}, err error) {
-	encryptor := (*serverGuard.App).GetComponent("Encryptor").(*Encryptor)
+	encryptor := serverGuard.App.GetComponent("Encryptor").(*Encryptor)
 	query := request.URL.Query()
 	buf, cryptErr := encryptor.Decrypt(
 		[]byte(content),

@@ -14,7 +14,7 @@ type Client struct {
 	AllowTypes []string
 }
 
-func NewClient(app *kernel.ApplicationInterface) (*Client, error) {
+func NewClient(app kernel.ApplicationInterface) (*Client, error) {
 	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err

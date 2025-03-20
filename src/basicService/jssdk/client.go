@@ -27,9 +27,9 @@ type Client struct {
 	GetAppID func() string
 }
 
-func NewClient(app *kernel.ApplicationInterface) (*Client, error) {
+func NewClient(app kernel.ApplicationInterface) (*Client, error) {
 
-	config := (*app).GetContainer().GetConfig()
+	config := app.GetContainer().GetConfig()
 
 	var cacheClient cache.CacheInterface = nil
 	if (*config)["cache"] != nil {
@@ -179,12 +179,12 @@ func (comp *Client) GetUrl(externalRequest *http.Request) string {
 
 func (comp *Client) OverrideGetAppID() {
 	comp.GetAppID = func() string {
-		config := (*comp.BaseClient.App).GetConfig()
+		config := comp.BaseClient.App.GetConfig()
 		return config.GetString("app_id", "")
 	}
 }
 
 func (comp *Client) getAgentID() string {
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	return config.GetString("agent_id", "")
 }

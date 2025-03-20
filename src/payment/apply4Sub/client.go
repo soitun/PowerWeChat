@@ -16,7 +16,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (comp *Client) ApplyForBusiness(ctx context.Context, params *request.Reques
 	result := &response.ResponseApplyForBusiness{}
 
 	// 获取RSA签名器
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	rsaSigner, err := sign.NewRSASigner(crypto.SHA1)
 	if err != nil {

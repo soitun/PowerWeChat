@@ -9,8 +9,8 @@ import (
 
 func RegisterProvider(app kernel.ApplicationInterface) (*server.Guard, error) {
 
-	guard := server.NewGuard(&app)
-	echoStrHandler := handlers.NewEchoStrHandler(&app)
+	guard := server.NewGuard(app)
+	echoStrHandler := handlers.NewEchoStrHandler(app)
 	guard.Push(echoStrHandler, messages.VOID)
 
 	return guard, nil

@@ -20,8 +20,8 @@ func RegisterProvider(app kernel.ApplicationInterface) (*kernel.Encryptor, *Guar
 		return nil, nil, err
 	}
 
-	guard := NewGuard(&app)
-	echoStrHandler := handlers.NewEchoStrHandler(&app)
+	guard := NewGuard(app)
+	echoStrHandler := handlers.NewEchoStrHandler(app)
 	guard.Push(echoStrHandler, messages.VOID)
 
 	return encryptor, guard, nil

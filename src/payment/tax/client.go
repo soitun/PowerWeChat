@@ -14,7 +14,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err

@@ -12,8 +12,8 @@ type Guard struct {
 	*kernel.ServerGuard
 }
 
-func NewGuard(app *kernel.ApplicationInterface) *Guard {
-	//config := (*app).GetContainer().GetConfig()
+func NewGuard(app kernel.ApplicationInterface) *Guard {
+	//config := app.GetContainer().GetConfig()
 
 	guard := &Guard{
 		kernel.NewServerGuard(app),
@@ -26,7 +26,7 @@ func NewGuard(app *kernel.ApplicationInterface) *Guard {
 }
 
 func (guard *Guard) VerifyURL(request *http.Request) (httpRS *http.Response, err error) {
-	logger := (*guard.App).GetComponent("Logger").(*logger2.Logger)
+	logger := guard.App.GetComponent("Logger").(*logger2.Logger)
 
 	_, err = guard.Validate(request)
 	if err != nil {

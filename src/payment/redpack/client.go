@@ -13,7 +13,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -26,7 +26,7 @@ func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
 // Query Red Pack.
 // https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_6&index=5
 func (comp *Client) Info(ctx context.Context, mchBillNO string) (*response.ResponseSendNormal, error) {
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	result := &response.ResponseSendNormal{}
 
@@ -50,7 +50,7 @@ func (comp *Client) SendMiniProgramNormal(ctx context.Context, data *request.Req
 
 	result := &response.ResponseSendMiniProgramNormal{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	params, err := object.StructToHashMapWithXML(data)
 	if err != nil {
@@ -76,7 +76,7 @@ func (comp *Client) SendNormal(ctx context.Context, data *request.RequestSendRed
 
 	result := &response.ResponseSendNormal{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	params, err := object.StructToHashMapWithXML(data)
 	if err != nil {
@@ -98,7 +98,7 @@ func (comp *Client) SendNormal(ctx context.Context, data *request.RequestSendRed
 // Send Group redpack.
 // https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_5&index=4
 func (comp *Client) SendGroup(ctx context.Context, data *request.RequestSendGroupRedPack) (*response.ResponseSendGroupRedPack, error) {
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	result := &response.ResponseSendGroupRedPack{}
 	if data.AmtType == "" {

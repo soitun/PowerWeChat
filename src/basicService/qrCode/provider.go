@@ -6,6 +6,6 @@ import (
 
 func RegisterProvider(app kernel.ApplicationInterface) (*Client, error) {
 
-	return NewClient(&app)
+	return NewClient(app)
 
 }

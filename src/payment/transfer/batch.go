@@ -16,7 +16,7 @@ type BatchClient struct {
 	Version string
 }
 
-func NewBatchClient(app *payment.ApplicationPaymentInterface) (*BatchClient, error) {
+func NewBatchClient(app payment.ApplicationPaymentInterface) (*BatchClient, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func NewBatchClient(app *payment.ApplicationPaymentInterface) (*BatchClient, err
 // https://pay.weixin.qq.com/docs/merchant/apis/batch-transfer-to-balance/transfer-batch/initiate-batch-transfer.html
 func (comp *BatchClient) Batch(ctx context.Context, param *request.RequestTransferBatch) (*response.ResponseTrasferBatch, error) {
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	if param.GetNotifyUrl() == "" {
 		url := config.GetString("notify_url", "")

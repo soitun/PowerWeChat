@@ -14,7 +14,7 @@ type Client struct {
 	BaseClient *kernel.BaseClient
 }
 
-func NewClient(app *kernel.ApplicationInterface) (*Client, error) {
+func NewClient(app kernel.ApplicationInterface) (*Client, error) {
 	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func (comp *Client) Session(ctx context.Context, code string) (*response.Respons
 
 	result := &response.ResponseCode2Session{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	params := &object.StringMap{
 		"appid":      config.GetString("app_id", ""),
@@ -50,7 +50,7 @@ func (comp *Client) CheckSession(ctx context.Context, openId string, sessionKey 
 
 	result := &response.ResponseCode2Session{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	sign, err := support.SignSHA256WithHMac([]byte(sessionKey), "")
 	if err != nil {
@@ -74,7 +74,7 @@ func (comp *Client) ResetUserSessionKey(ctx context.Context, openId string, sess
 
 	result := &response2.ResponseMiniProgram{}
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 
 	sign, err := support.SignSHA256WithHMac([]byte(sessionKey), "")
 	if err != nil {

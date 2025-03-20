@@ -13,7 +13,7 @@ type ShopClient struct {
 }
 
 func NewShopClient(app kernel.ApplicationInterface) (*ShopClient, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}

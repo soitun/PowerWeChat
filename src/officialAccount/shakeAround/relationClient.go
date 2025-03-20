@@ -13,7 +13,7 @@ type RelationClient struct {
 }
 
 func NewRelationClient(app kernel.ApplicationInterface) (*RelationClient, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}

@@ -15,7 +15,7 @@ type Client struct {
 // https://developers.weixin.qq.com/doc/offiaccount/Intelligent_Interface/Natural_Language_Processing.html
 func (comp *Client) Query(ctx context.Context, keyword string, categories string, optional *power.HashMap) (interface{}, error) {
 
-	config := (*comp.BaseClient.App).GetConfig()
+	config := comp.BaseClient.App.GetConfig()
 	params := &object.HashMap{
 		"query":    keyword,
 		"category": categories,

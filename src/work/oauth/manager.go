@@ -9,11 +9,11 @@ import (
 
 type Manager struct {
 	Config   *object.HashMap
-	App      *kernel.ApplicationInterface
+	App      kernel.ApplicationInterface
 	Provider *providers.WeCom
 }
 
-func NewManager(config *object.HashMap, providerConfig *object.HashMap, app *kernel.ApplicationInterface) *Manager {
+func NewManager(config *object.HashMap, providerConfig *object.HashMap, app kernel.ApplicationInterface) *Manager {
 
 	manager := &Manager{
 		(*config)["wecom"].(*object.HashMap),

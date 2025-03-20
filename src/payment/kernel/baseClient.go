@@ -29,11 +29,11 @@ type BaseClient struct {
 
 	RsaOAEP *sign.RSASigner
 
-	App *ApplicationPaymentInterface
+	App ApplicationPaymentInterface
 }
 
-func NewBaseClient(app *ApplicationPaymentInterface) (*BaseClient, error) {
-	config := (*app).GetConfig()
+func NewBaseClient(app ApplicationPaymentInterface) (*BaseClient, error) {
+	config := app.GetConfig()
 	baseURI := config.GetString("http.base_uri", "/")
 
 	httpRequest, err := helper.NewRequestHelper(&helper.Config{
@@ -51,6 +51,7 @@ func NewBaseClient(app *ApplicationPaymentInterface) (*BaseClient, error) {
 				CertificateSerialNo: config.GetString("serial_no", ""),
 				PrivateKeyPath:      config.GetString("key_path", ""),
 			},
+			App: app,
 		},
 		App: app,
 	}
@@ -84,7 +85,7 @@ func (client *BaseClient) PlainRequest(ctx context.Context, endpoint string, par
 	returnRaw bool, outHeader interface{}, outBody interface{},
 ) (response *http.Response, err error) {
 
-	//config := (*client.App).GetConfig()
+	//config := client.App.GetConfig()
 	base := &object.HashMap{}
 
 	// init options
@@ -129,7 +130,7 @@ func (client *BaseClient) PlainRequest(ctx context.Context, endpoint string, par
 				}
 			}
 		}
-		config := (*client.App).GetConfig()
+		config := client.App.GetConfig()
 		// 微信如果需要传debug模式
 		debug := config.GetBool("debug", false)
 		if debug {
@@ -170,7 +171,7 @@ func (client *BaseClient) RequestV2(ctx context.Context, endpoint string, params
 	returnRaw bool, outHeader interface{}, outBody interface{},
 ) (response *http.Response, err error) {
 
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 
 	base := &object.HashMap{
 		// 微信的接口如果传入接口以外的参数，签名会失败所以这里需要区分对待参数
@@ -209,7 +210,7 @@ func (client *BaseClient) RequestV2(ctx context.Context, endpoint string, params
 				}
 			}
 		}
-		config := (*client.App).GetConfig()
+		config := client.App.GetConfig()
 		// 微信如果需要传debug模式
 		debug := config.GetBool("debug", false)
 		if debug {
@@ -236,7 +237,7 @@ func (client *BaseClient) Request(ctx context.Context, endpoint string, params *
 	returnRaw bool, outHeader interface{}, outBody interface{},
 ) (response *http.Response, err error) {
 
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 
 	// 签名访问的URL，请确保url后面不要跟参数，因为签名的参数，不包含?参数
 	// 比如需要在请求的时候，把debug=false，这样url后面就不会多出 "?debug=true"
@@ -263,7 +264,7 @@ func (client *BaseClient) Request(ctx context.Context, endpoint string, params *
 				}
 			}
 		}
-		config := (*client.App).GetConfig()
+		config := client.App.GetConfig()
 		// 微信如果需要传debug模式
 		debug := config.GetBool("debug", false)
 		if debug {
@@ -306,7 +307,7 @@ func (client *BaseClient) Request(ctx context.Context, endpoint string, params *
 
 func (client *BaseClient) RequestRawXML(ctx context.Context, url string, params *object.StringMap, method string, options *object.HashMap, outHeader interface{}, outBody interface{}) (interface{}, error) {
 
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 
 	base := &object.StringMap{
 		// 微信的接口如果传入接口以外的参数，签名会失败所以这里需要区分对待参数
@@ -346,7 +347,7 @@ func (client *BaseClient) RequestRawXML(ctx context.Context, url string, params 
 				}
 			}
 		}
-		config := (*client.App).GetConfig()
+		config := client.App.GetConfig()
 		// 微信如果需要传debug模式
 		debug := config.GetBool("debug", false)
 		if debug {
@@ -381,7 +382,7 @@ func (client *BaseClient) RequestRawXML(ctx context.Context, url string, params 
 
 func (client *BaseClient) HttpUploadJson(ctx context.Context, url string, files *object.HashMap, form *kernel.UploadForm, options *object.HashMap, queries *object.StringMap, outHeader interface{}, outBody interface{}) (interface{}, error) {
 
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 
 	method := http.MethodPost
 	// 签名访问的URL，请确保url后面不要跟参数，因为签名的参数，不包含?参数
@@ -491,7 +492,7 @@ func (client *BaseClient) StreamDownload(ctx context.Context, requestDownload *p
 	}
 	//defer fileHandler.Close()
 
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 
 	method := http.MethodGet
 	options, err := client.AuthSignRequest(ctx, config, requestDownload.DownloadURL, method, nil, nil)
@@ -547,7 +548,7 @@ func (client *BaseClient) RequestArray(ctx context.Context, url string, method s
 }
 
 func (client *BaseClient) SafeRequestV3(ctx context.Context, url string, params *object.StringMap, method string, option *object.HashMap, outHeader interface{}, outBody interface{}) (interface{}, error) {
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 
 	httpConfig := client.HttpHelper.GetClient().GetConfig()
 	httpConfig.Cert.CertFile = config.GetString("cert_path", "")
@@ -577,7 +578,7 @@ func (client *BaseClient) SafeRequestV3(ctx context.Context, url string, params 
 }
 
 func (client *BaseClient) SafeRequest(ctx context.Context, url string, params *object.HashMap, method string, option *object.HashMap, outHeader interface{}, outBody interface{}) (interface{}, error) {
-	config := (*client.App).GetConfig()
+	config := client.App.GetConfig()
 
 	httpConfig := client.HttpHelper.GetClient().GetConfig()
 	httpConfig.Cert.CertFile = config.GetString("cert_path", "")
@@ -608,7 +609,7 @@ func (client *BaseClient) SafeRequest(ctx context.Context, url string, params *o
 }
 
 func (client *BaseClient) Wrap(endpoint string) string {
-	if (*client.App).InSandbox() {
+	if client.App.InSandbox() {
 		return "sandboxnew/" + endpoint
 	} else {
 		return endpoint
@@ -665,7 +666,7 @@ func (client *BaseClient) AuthSignRequestSimple(config *kernel.Config, endpoint 
 
 	var err error
 
-	secretKey, err := (*client.App).GetKey(endpoint)
+	secretKey, err := client.App.GetKey(endpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -708,7 +709,7 @@ func (client *BaseClient) AuthSignRequestV2(endpoint string, method string, para
 
 	var err error
 
-	secretKey, err := (*client.App).GetKey(endpoint)
+	secretKey, err := client.App.GetKey(endpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -756,8 +757,8 @@ func (client *BaseClient) RegisterHttpMiddlewares() {
 	// log
 	logMiddleware := client.GetMiddlewareOfLog
 
-	config := (*client.App).GetConfig()
-	logger := (*client.App).GetComponent("Logger").(contract2.LoggerInterface)
+	config := client.App.GetConfig()
+	logger := client.App.GetComponent("Logger").(contract2.LoggerInterface)
 	client.HttpHelper.WithMiddleware(
 		//accessTokenMiddleware,
 		logMiddleware(logger),
@@ -778,10 +779,10 @@ func (client *BaseClient) OverrideGetMiddlewareOfAccessToken() {
 			// 前置中间件
 			//fmt.Println("获取access token, 在请求前执行")
 
-			accessToken := (*client.App).GetAccessToken()
+			accessToken := client.App.GetAccessToken()
 
 			if accessToken != nil {
-				config := (*client.App).GetContainer().Config
+				config := client.App.GetContainer().Config
 				_, err = accessToken.ApplyToRequest(request, config)
 			}
 

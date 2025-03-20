@@ -86,8 +86,8 @@ type Guard struct {
 	*kernel.ServerGuard
 }
 
-func NewGuard(app *kernel.ApplicationInterface) *Guard {
-	// config := (*app).GetContainer().GetConfig()
+func NewGuard(app kernel.ApplicationInterface) *Guard {
+	// config := app.GetContainer().GetConfig()
 
 	guard := &Guard{
 		kernel.NewServerGuard(app),
@@ -194,7 +194,7 @@ func (guard *Guard) Notify(request *http.Request, closure func(content *kernelMo
 }
 
 func (guard *Guard) DecryptEvent(content string) (bufDecrypted []byte, err error) {
-	encryptor := (*guard.App).GetComponent("Encryptor").(*kernel.Encryptor)
+	encryptor := guard.App.GetComponent("Encryptor").(*kernel.Encryptor)
 
 	bufDecrypted, cryptErr := encryptor.DecryptContent(content)
 	if cryptErr != nil {

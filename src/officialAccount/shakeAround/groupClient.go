@@ -13,7 +13,7 @@ type GroupClient struct {
 }
 
 func NewGroupClient(app kernel.ApplicationInterface) (*GroupClient, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}

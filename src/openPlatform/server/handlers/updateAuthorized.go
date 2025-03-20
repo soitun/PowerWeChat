@@ -9,10 +9,10 @@ import (
 type UpdateAuthorized struct {
 	contract.EventHandlerInterface
 
-	App *kernel.ApplicationInterface
+	App kernel.ApplicationInterface
 }
 
-func NewUpdateAuthorized(app *kernel.ApplicationInterface) *UpdateAuthorized {
+func NewUpdateAuthorized(app kernel.ApplicationInterface) *UpdateAuthorized {
 	handler := &UpdateAuthorized{
 		App: app,
 	}

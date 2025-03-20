@@ -27,7 +27,7 @@ func RegisterProvider(app kernel.ApplicationInterface) (*Manager, error) {
 	socialite := NewManager(
 		&object.HashMap{
 			"wecom": managerConfig,
-		}, providerConfig, &app)
+		}, providerConfig, app)
 
 	scopes := globalConfig.Get("oauth.scopes", []string{"snsapi_base"}).([]string)
 

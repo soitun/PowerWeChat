@@ -16,7 +16,7 @@ type Client struct {
 }
 
 func NewClient(app kernel.ApplicationInterface) (*Client, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -274,7 +274,7 @@ func (clt *Client) BatchTransferLicense(ctx context.Context, corpID string, tran
 // https://developer.work.weixin.qq.com/document/path/95844
 func (clt *Client) GetAppLicenseInfo(ctx context.Context, corpID string) (*model.LicenseInfo, error) {
 	var result response.ResponseGetAppLicenseInfo
-	config := (*clt.BaseClient.App).GetContainer().GetConfig()
+	config := clt.BaseClient.App.GetContainer().GetConfig()
 	req := object.HashMap{
 		"corpid":   corpID,
 		"suite_id": (*config)["appid"].(string),

@@ -15,8 +15,8 @@ type Guard struct {
 	*kernel.ServerGuard
 }
 
-func NewGuard(app *kernel.ApplicationInterface) *Guard {
-	// config := (*app).GetContainer().GetConfig()
+func NewGuard(app kernel.ApplicationInterface) *Guard {
+	// config := app.GetContainer().GetConfig()
 
 	guard := &Guard{
 		kernel.NewServerGuard(app),

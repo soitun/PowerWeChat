@@ -17,7 +17,7 @@ type Client struct {
 	*kernel2.InteractsWithCache
 }
 
-func NewClient(app *kernel.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app kernel.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := kernel.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -76,7 +76,7 @@ func (comp *Client) GetKey() (string, error) {
 
 func (comp *Client) GetCacheKey() string {
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 	strData := config.GetString("app_id", "") + config.GetString("mch_id", "")
 	data, _ := json.Marshal(strData)
 	buffer := md5.Sum(data)

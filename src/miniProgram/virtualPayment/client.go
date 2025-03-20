@@ -5,15 +5,15 @@ import (
 )
 
 type Client struct {
-	App *kernel.ApplicationInterface
+	App kernel.ApplicationInterface
 	*kernel.BaseClient
 
 	appKey  string
 	offerId string
 }
 
-func NewClient(app *kernel.ApplicationInterface) (*Client, error) {
-	config := (*app).GetConfig()
+func NewClient(app kernel.ApplicationInterface) (*Client, error) {
+	config := app.GetConfig()
 
 	baseClient, err := kernel.NewBaseClient(app, nil)
 

@@ -16,7 +16,7 @@ type Client struct {
 }
 
 func NewClient(app kernel.ApplicationInterface, component kernel.ApplicationInterface) (*Client, error) {
-	baseClient, err := kernel.NewBaseClient(&app, nil)
+	baseClient, err := kernel.NewBaseClient(app, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,7 @@ func (comp *Client) Session(ctx context.Context, code string) (*response.Respons
 
 	result := &response.ResponseSession{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 	componentConfig := comp.component.GetConfig()
 	token := comp.component.GetComponent("AccessToken").(*auth.AccessToken)
 	componentToken, err := token.GetToken(ctx, false)

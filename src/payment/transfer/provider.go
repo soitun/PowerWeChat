@@ -6,11 +6,11 @@ import (
 
 func RegisterProvider(app kernel.ApplicationPaymentInterface) (*Client, *BatchClient, error) {
 
-	client, err := NewClient(&app)
+	client, err := NewClient(app)
 	if err != nil {
 		return nil, nil, err
 	}
-	batchClient, err := NewBatchClient(&app)
+	batchClient, err := NewBatchClient(app)
 	if err != nil {
 		return nil, nil, err
 	}

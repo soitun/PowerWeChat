@@ -12,7 +12,7 @@ type Client struct {
 	*payment.BaseClient
 }
 
-func NewClient(app *payment.ApplicationPaymentInterface) (*Client, error) {
+func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	baseClient, err := payment.NewBaseClient(app)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (comp *Client) Reverse(ctx context.Context, number string, reverseType stri
 
 	result := &response.ResponseReserve{}
 
-	config := (*comp.App).GetConfig()
+	config := comp.App.GetConfig()
 
 	params := &object.HashMap{
 		"appid":     config.GetString("app_id", ""),
