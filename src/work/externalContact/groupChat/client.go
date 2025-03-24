@@ -80,3 +80,47 @@ func (comp *Client) GetNewExternalUserID(ctx context.Context, chatID string, ext
 
 	return result.Items, err
 }
+
+// 配置客户群进群方式
+// https://developer.work.weixin.qq.com/document/path/92229
+func (comp *Client) AddJoinWay(ctx context.Context, params *request.RequestAddJoinWay) (*response.ResponseAddJoinWay, error) {
+
+	result := &response.ResponseAddJoinWay{}
+
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/externalcontact/groupchat/add_join_way", params, nil, nil, result)
+
+	return result, err
+}
+
+// 获取客户群进群方式配置
+// https://developer.work.weixin.qq.com/document/path/92229
+func (comp *Client) GetJoinWay(ctx context.Context, params *request.RequestGetJoinWay) (*response.ResponseGetJoinWay, error) {
+
+	result := &response.ResponseGetJoinWay{}
+
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/externalcontact/groupchat/get_join_way", params, nil, nil, result)
+
+	return result, err
+}
+
+// 更新客户群进群方式配置
+// https://developer.work.weixin.qq.com/document/path/92229
+func (comp *Client) UpdateJoinWay(ctx context.Context, params *request.RequestUpdateJoinWay) (*response.ResponseUpdateJoinWay, error) {
+
+	result := &response.ResponseUpdateJoinWay{}
+
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/externalcontact/groupchat/update_join_way", params, nil, nil, result)
+
+	return result, err
+}
+
+// 删除客户群进群方式配置
+// https://developer.work.weixin.qq.com/document/path/92229
+func (comp *Client) DelJoinWay(ctx context.Context, params *request.RequestDelJoinWay) (*response.ResponseDelJoinWay, error) {
+
+	result := &response.ResponseDelJoinWay{}
+
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/externalcontact/groupchat/del_join_way", params, nil, nil, result)
+
+	return result, err
+}

@@ -138,6 +138,9 @@ func (serverGuard *ServerGuard) Serve(request *http.Request) (response *http.Res
 	}
 
 	response, err = validatedGuard.Resolve(request)
+	if err != nil {
+		return nil, err
+	}
 
 	logger.Info("Server response created:", "content", response.ContentLength)
 
