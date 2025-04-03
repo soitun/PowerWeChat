@@ -11,7 +11,8 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/meetingroom"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/pstncc"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/schedule"
-	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/webdrive"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/wedoc"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/wedrive"
 )
 
 func RegisterProvider(app kernel.ApplicationInterface) (*Client,
@@ -23,7 +24,8 @@ func RegisterProvider(app kernel.ApplicationInterface) (*Client,
 	*meetingroom.Client,
 	*pstncc.Client,
 	*schedule.Client,
-	*webdrive.Client,
+	*wedoc.Client,
+	*wedrive.Client,
 	*approval.Client,
 	error,
 
@@ -32,47 +34,51 @@ func RegisterProvider(app kernel.ApplicationInterface) (*Client,
 
 	Client, err := NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	Calendar, err := calendar.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	Dial, err := dial.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	Journal, err := journal.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	Living, err := living.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	Meeting, err := meeting.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	MeetingRoom, err := meetingroom.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	PSTNCC, err := pstncc.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	Schedule, err := schedule.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
-	WebDrive, err := webdrive.NewClient(app)
+	WeDoc, err := wedoc.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+	}
+	WeDrive, err := wedrive.NewClient(app)
+	if err != nil {
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	Approval, err := approval.NewClient(app)
 	if err != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, err
 	}
 	return Client,
 		Calendar,
@@ -83,7 +89,8 @@ func RegisterProvider(app kernel.ApplicationInterface) (*Client,
 		MeetingRoom,
 		PSTNCC,
 		Schedule,
-		WebDrive,
+		WeDoc,
+		WeDrive,
 		Approval,
 		nil
 
