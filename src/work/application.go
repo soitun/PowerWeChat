@@ -55,7 +55,8 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/meetingroom"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/pstncc"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/schedule"
-	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/webdrive"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/wedoc"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oa/wedrive"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/oauth"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/server"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/user"
@@ -130,7 +131,8 @@ type Work struct {
 	OAMeetingRoom *meetingroom.Client
 	OAPSTNCC      *pstncc.Client
 	OASchedule    *schedule.Client
-	OAWebDrive    *webdrive.Client
+	OAWeDoc       *wedoc.Client
+	OAWeDrive     *wedrive.Client
 	OAApproval    *approval.Client
 
 	MsgAudit *msgaudit.Client
@@ -347,7 +349,8 @@ func NewWork(config *UserConfig) (*Work, error) {
 		app.OAMeetingRoom,
 		app.OAPSTNCC,
 		app.OASchedule,
-		app.OAWebDrive,
+		app.OAWeDoc,
+		app.OAWeDrive,
 		app.OAApproval,
 		err = oa.RegisterProvider(app)
 	if err != nil {
@@ -491,8 +494,10 @@ func (app *Work) GetComponent(name string) interface{} {
 		return app.OAPSTNCC
 	case "OASchedule":
 		return app.OASchedule
-	case "OAWebDrive":
-		return app.OAWebDrive
+	case "OAWeDoc":
+		return app.OAWeDoc
+	case "OAWeDrive":
+		return app.OAWeDrive
 	case "OAApproval":
 		return app.OAApproval
 
