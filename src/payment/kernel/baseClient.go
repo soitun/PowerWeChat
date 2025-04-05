@@ -495,7 +495,7 @@ func (client *BaseClient) StreamDownload(ctx context.Context, requestDownload *p
 	config := client.App.GetConfig()
 
 	method := http.MethodGet
-	options, err := client.AuthSignRequest(ctx, config, requestDownload.DownloadURL, method, nil, nil)
+	options, err := client.AuthSignRequest(ctx, config, requestDownload.DownloadURL, method, nil, &object.HashMap{})
 	if err != nil {
 		return 0, err
 	}

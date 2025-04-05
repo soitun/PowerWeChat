@@ -54,7 +54,7 @@ func (comp *Client) GetFlowBill(ctx context.Context, date string, accountType st
 	}
 
 	endpoint := comp.Wrap("/v3/bill/fundflowbill")
-	_, err := comp.Request(ctx, endpoint, params, http.MethodPost, &object.HashMap{}, false, nil, result)
+	_, err := comp.Request(ctx, endpoint, params, http.MethodGet, &object.HashMap{}, false, nil, result)
 
 	return result, err
 }
