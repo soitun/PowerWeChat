@@ -24,8 +24,8 @@ func NewClient(app kernel.ApplicationInterface) (*Client, error) {
 	}, nil
 }
 
-// 读取消息
-// https://developer.work.weixin.qq.com/document/path/94670
+// 获取客户基础信息
+// https://developer.work.weixin.qq.com/document/path/96429
 func (comp *Client) BatchGet(ctx context.Context, externalUserIDList []string, needEnterSessionContext int8) (*response.ResponseCustomerBatchGet, error) {
 
 	result := &response.ResponseCustomerBatchGet{}
