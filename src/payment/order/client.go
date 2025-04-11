@@ -33,7 +33,7 @@ func (comp *Client) JSAPITransaction(ctx context.Context, params *request.Reques
 	result := &response.ResponseUnitfy{}
 
 	endpoint := "/v3/pay/transactions/jsapi"
-	_, err := comp.PayTransaction(ctx, endpoint, params, result)
+	_, err := comp.PayTransaction(ctx, endpoint, params, result, true)
 	return result, err
 }
 
@@ -44,7 +44,7 @@ func (comp *Client) TransactionApp(ctx context.Context, params *request.RequestA
 	result := &response.ResponseUnitfy{}
 
 	endpoint := "/v3/pay/transactions/app"
-	_, err := comp.PayTransaction(ctx, endpoint, params, result)
+	_, err := comp.PayTransaction(ctx, endpoint, params, result, true)
 
 	return result, err
 }
@@ -56,7 +56,7 @@ func (comp *Client) TransactionH5(ctx context.Context, params *request.RequestH5
 	result := &response.ResponseH5URL{}
 
 	endpoint := "/v3/pay/transactions/h5"
-	_, err := comp.PayTransaction(ctx, endpoint, params, result)
+	_, err := comp.PayTransaction(ctx, endpoint, params, result, true)
 	return result, err
 }
 
@@ -67,7 +67,7 @@ func (comp *Client) TransactionNative(ctx context.Context, params *request.Reque
 	result := &response.ResponseCodeURL{}
 
 	endpoint := "/v3/pay/transactions/native"
-	_, err := comp.PayTransaction(ctx, endpoint, params, result)
+	_, err := comp.PayTransaction(ctx, endpoint, params, result, true)
 
 	return result, err
 }
@@ -79,19 +79,31 @@ func (comp *Client) TransactionAppCombine(ctx context.Context, params *request.R
 	result := &response.ResponseUnitfy{}
 
 	endpoint := "/v3/combine-transactions/app"
-	_, err := comp.PayTransaction(ctx, endpoint, params, result)
+	_, err := comp.PayTransaction(ctx, endpoint, params, result, true)
 
 	return result, err
 }
 
-func (comp *Client) PayTransaction(ctx context.Context, entryPoint string, params request.Prepay, result interface{}) (interface{}, error) {
+// 付款码支付
+// https://pay.weixin.qq.com/docs/merchant/apis/code-payment-v3/direct/code-pay.html
+func (comp *Client) TransactionCodePay(ctx context.Context, params *request.RequestCodePay) (*response.ResponseCodePayResult, error) {
+
+	result := &response.ResponseCodePayResult{}
+
+	endpoint := "/v3/pay/transactions/codepay"
+	_, err := comp.PayTransaction(ctx, endpoint, params, result, false)
+
+	return result, err
+}
+
+func (comp *Client) PayTransaction(ctx context.Context, entryPoint string, params request.Prepay, result interface{}, needNotify bool) (interface{}, error) {
 	config := comp.App.GetConfig()
 
 	if params.GetAppID() == "" {
 		appID := config.GetString("app_id", "")
 		params.SetAppID(appID)
 	}
-	if params.GetNotifyUrl() == "" {
+	if params.GetNotifyUrl() == "" && needNotify {
 		url := config.GetString("notify_url", "")
 		params.SetNotifyUrl(url)
 	}
