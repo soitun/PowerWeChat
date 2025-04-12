@@ -29,8 +29,8 @@ func GetOfficialConfig() *officialAccount.UserConfig {
 		Log: officialAccount.Log{
 			Level:  "debug",
 			Stdout: false,
-			File:   "/Users/michaelhu/wechat/official-account/info.log",
-			Error:  "/Users/michaelhu/wechat/official-account/error.log",
+			File:   "~/wechat/official-account/info.log",
+			Error:  "~/wechat/official-account/error.log",
 		},
 		Http: officialAccount.Http{
 			ProxyURI: "",
@@ -59,8 +59,8 @@ func GetWorkConfig() *work.UserConfig {
 			Level: "debug",
 			//File:  "./wechat/info.log",
 			//Error: "./wechat/error.log",
-			File:  "/Users/michaelhu/wechat/work/info.log",
-			Error: "/Users/michaelhu/wechat/work/error.log",
+			File:  "~/wechat/work/info.log",
+			Error: "~/wechat/work/error.log",
 			ENV:   os.Getenv("work.env"),
 		},
 
@@ -107,8 +107,8 @@ func GetPaymentConfig() *payment.UserConfig {
 			Level: "debug",
 			//File:  "./wechat/info.log",
 			//Error: "./wechat/error.log",
-			File:  "/Users/michaelhu/wechat/payment/info.log",
-			Error: "/Users/michaelhu/wechat/payment/error.log",
+			File:  "~/wechat/payment/info.log",
+			Error: "~/wechat/payment/error.log",
 		},
 		Http: payment.Http{
 			Timeout:  30.0,
@@ -141,8 +141,8 @@ func GetMiniProgramConfig() *miniProgram.UserConfig {
 		ResponseType: os.Getenv("array"),
 		Log: miniProgram.Log{
 			Level: "debug",
-			File:  "/Users/michaelhu/wechat/mini-program/info.log",
-			Error: "/Users/michaelhu/wechat/mini-program/error.log",
+			File:  "~/wechat/mini-program/info.log",
+			Error: "~/wechat/mini-program/error.log",
 		},
 		Cache: kernel.NewRedisClient(&kernel.UniversalOptions{
 			Addrs:    []string{"127.0.0.1:6379"},
@@ -170,8 +170,8 @@ func GetOpenPlatformConfig() *openPlatform.UserConfig {
 			Level: "debug",
 			//File:  "./wechat/info.log",
 			//Error: "./wechat/error.log",
-			File:  "/Users/michaelhu/wechat/platform/info.log",
-			Error: "/Users/michaelhu/wechat/platform/error.log",
+			File:  "~/wechat/platform/info.log",
+			Error: "~/wechat/platform/error.log",
 		},
 		Cache: kernel.NewRedisClient(&kernel.UniversalOptions{
 			Addrs:    []string{"127.0.0.1:6379"},
