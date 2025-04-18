@@ -2,6 +2,8 @@ module github.com/ArtisanCloud/PowerWeChat/v3
 
 go 1.23.0
 
+toolchain go1.23.5
+
 // replace github.com/ArtisanCloud/PowerLibs/v3 => ../PowerLibs
 
 //replace github.com/ArtisanCloud/PowerSocialite/v3 => ../PowerSocialite
