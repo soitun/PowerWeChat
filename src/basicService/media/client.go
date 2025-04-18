@@ -54,24 +54,33 @@ func (comp *Client) UploadThumb(ctx context.Context, path string) (*response.Res
 // https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/New_temporary_materials.html
 func (comp *Client) Upload(ctx context.Context, mediaType string, path string) (*response.ResponseUploadMedia, error) {
 
-	_, err := os.Stat(path)
-	if (err != nil && os.IsExist(err)) && (err != nil && os.IsPermission(err)) {
-		return nil, errors.New(fmt.Sprintf("File does not exist, or the file is unreadable: \"%s\"", path))
+	if path == "" {
+		return nil, errors.New("path is empty")
+	}
+
+	stat, err := os.Stat(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, fmt.Errorf("file does not exist: \"%s\"", path)
+		}
+		if os.IsPermission(err) {
+			return nil, fmt.Errorf("permission denied for file: \"%s\"", path)
+		}
+		return nil, fmt.Errorf("unable to access file \"%s\": %w", path, err)
+	}
+	if stat.IsDir() {
+		return nil, fmt.Errorf("path is a directory, not a file: \"%s\"", path)
 	}
 
 	if !object.ContainsString(comp.AllowTypes, mediaType) {
 		return nil, errors.New(fmt.Sprintf("Unsupported media type: '%s'", mediaType))
 	}
 
-	outResponse := &response.ResponseUploadMedia{}
-	var files *object.HashMap
-	if path != "" {
-		files = &object.HashMap{
-			"media": path,
-		}
-	} else {
-		return nil, errors.New("path is empty")
+	files := &object.HashMap{
+		"media": path,
 	}
+
+	outResponse := &response.ResponseUploadMedia{}
 
 	_, err = comp.BaseClient.HttpUpload(ctx, "cgi-bin/media/upload", files, nil, &object.StringMap{
 		"type": mediaType,
