@@ -4,7 +4,7 @@ go 1.23.0
 
 // replace github.com/ArtisanCloud/PowerLibs/v3 => ../PowerLibs
 
-//replace github.com/ArtisanCloud/PowerSocialite/v3 => ../PowerSocialite
+// replace github.com/ArtisanCloud/PowerSocialite/v3 => ../PowerSocialite
 
 require (
 	github.com/ArtisanCloud/PowerLibs/v3 v3.3.2
