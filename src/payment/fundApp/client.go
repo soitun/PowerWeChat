@@ -49,7 +49,7 @@ func (comp *Client) QueryOutBill(ctx context.Context, outBillNO string) (*respon
 	result := &response.ResponseQueryOutBill{}
 
 	endpoint := comp.Wrap(fmt.Sprintf("/v3/fund-app/mch-transfer/transfer-bills/out-bill-no/%s", outBillNO))
-	_, err := comp.SafeRequestV3(ctx, endpoint, nil, http.MethodPost, &object.HashMap{}, nil, result)
+	_, err := comp.SafeRequestV3(ctx, endpoint, nil, http.MethodGet, &object.HashMap{}, nil, result)
 
 	return result, err
 }
@@ -61,7 +61,7 @@ func (comp *Client) QueryTransferBill(ctx context.Context, transferBillNO string
 	result := &response.ResponseQueryTransferBill{}
 
 	endpoint := comp.Wrap(fmt.Sprintf("/v3/fund-app/mch-transfer/transfer-bills/transfer-bill-no/%s", transferBillNO))
-	_, err := comp.SafeRequestV3(ctx, endpoint, nil, http.MethodPost, &object.HashMap{}, nil, result)
+	_, err := comp.SafeRequestV3(ctx, endpoint, nil, http.MethodGet, &object.HashMap{}, nil, result)
 
 	return result, err
 }
