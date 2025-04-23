@@ -39,3 +39,8 @@ type RequestUpdateTemplate struct {
 	TemplateName    []TemplateName  `json:"template_name"`
 	TemplateContent TemplateContent `json:"template_content"`
 }
+
+type RequestCreateTemplate struct {
+	TemplateName    []TemplateName  `json:"template_name"`
+	TemplateContent TemplateContent `json:"template_content"`
+}
