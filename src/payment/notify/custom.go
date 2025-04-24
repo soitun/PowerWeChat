@@ -1,29 +1,26 @@
 package notify
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/ArtisanCloud/PowerLibs/v3/object"
-	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/models"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/payment/kernel"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/payment/notify/request"
 )
 
-type Paid struct {
-	*Handler
+// CustomNotify 框架内没有实现的，可以使用这个自己实现
+type CustomNotify[T any] struct {
+	*CustomHandler
 }
 
-func NewPaidNotify(app kernel.ApplicationPaymentInterface, request *http.Request) *Paid {
-
-	paid := &Paid{
-		NewHandler(app, request),
+func NewCustomNotify[T any](app kernel.ApplicationPaymentInterface, body io.Reader) *CustomNotify[T] {
+	return &CustomNotify[T]{
+		NewCustomHandler(app, body),
 	}
-
-	return paid
 }
 
-func (comp *Paid) Handle(closure func(message *request.RequestNotify, transaction *models.Transaction, fail func(message string)) interface{}) (*http.Response, error) {
-
+func (comp *CustomNotify[T]) Handle(closure func(message *request.RequestNotify, transaction *T, fail func(message string)) interface{}) (*http.Response, error) {
 	message, err := comp.GetMessage()
 	if err != nil {
 		return nil, err
@@ -35,7 +32,7 @@ func (comp *Paid) Handle(closure func(message *request.RequestNotify, transactio
 	}
 
 	// struct the content
-	transaction := &models.Transaction{}
+	var transaction = new(T)
 	err = object.JsonDecode([]byte(reqInfo), transaction)
 	if err != nil {
 		return nil, err
@@ -45,5 +42,4 @@ func (comp *Paid) Handle(closure func(message *request.RequestNotify, transactio
 	comp.Strict(result)
 
 	return comp.ToResponse()
-
 }
