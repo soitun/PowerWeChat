@@ -123,7 +123,7 @@ func (comp *Client) TagUsers(ctx context.Context, openIDs []string, tagID int) (
 
 // 批量为用户取消标签
 // https://developers.weixin.qq.com/doc/offiaccount/User_Management/User_Tag_Management.html
-func (comp *Client) UntagUsers(ctx context.Context, openIDs []string, tagID string) (*response.ResponseUntagUsers, error) {
+func (comp *Client) UntagUsers(ctx context.Context, openIDs []string, tagID int) (*response.ResponseUntagUsers, error) {
 	result := &response.ResponseUntagUsers{}
 
 	params := &object.HashMap{
