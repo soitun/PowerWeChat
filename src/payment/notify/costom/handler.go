@@ -1,10 +1,11 @@
-package notify
+package costom
 
 import (
 	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/payment/notify"
 	"io"
 	"net/http"
 
@@ -57,10 +58,10 @@ func (handler *CustomHandler) RespondWith(attributes *object.StringMap, sign boo
 }
 func (handler *CustomHandler) ToResponse() (response *http.Response, err error) {
 
-	returnCode := SUCCESS
+	returnCode := notify.SUCCESS
 	returnMsg := "成功"
 	if handler.fail != "" {
-		returnCode = FAIL
+		returnCode = notify.FAIL
 		returnMsg = handler.fail
 		err = errors.New(handler.fail)
 	}
