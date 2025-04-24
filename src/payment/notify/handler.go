@@ -34,16 +34,16 @@ const FAIL = "FAIL"
 func NewHandler(app kernel.ApplicationPaymentInterface, r *http.Request) *Handler {
 
 	// -------------- external request --------------
-	request := &http.Request{}
+	req := &http.Request{}
 	if r != nil {
-		request = r
+		req = r
 	}
 
 	return &Handler{
 		App:             app,
 		Check:           true,
 		Sign:            false,
-		ExternalRequest: request,
+		ExternalRequest: req,
 	}
 }
 
