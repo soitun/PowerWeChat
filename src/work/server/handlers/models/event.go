@@ -229,28 +229,29 @@ type NotifyNode struct {
 }
 
 type ApprovalInfo struct {
-	Text              string         `xml:",chardata"`
-	SpNO              string         `xml:"SpNo"`
-	SpName            string         `xml:"SpName"`
-	SpStatus          string         `xml:"SpStatus"`
-	TemplateID        string         `xml:"TemplateId"`
-	ApplyTime         string         `xml:"ApplyTime"`
-	Applier           *Applier       `xml:"Applyer"`
-	SpRecord          []*SPRecord    `xml:"SpRecord"`
-	Notifier          *Notifier      `xml:"Notifyer"`
-	Comments          *Comments      `xml:"Comments"`
-	StatusChangeEvent string         `xml:"StatuChangeEvent"`
-	ThirdNo           string         `xml:"ThirdNo"`
-	OpenSpName        string         `xml:"OpenSpName"`
-	OpenTemplateId    string         `xml:"OpenTemplateId"`
-	OpenSpStatus      int            `xml:"OpenSpStatus"`
-	ApplyUserName     string         `xml:"ApplyUserName"`
-	ApplyUserId       string         `xml:"ApplyUserId"`
-	ApplyUserParty    string         `xml:"ApplyUserParty"`
-	ApplyUserImage    string         `xml:"ApplyUserImage"`
-	ApprovalNodes     []ApprovalNode `xml:"ApprovalNodes"`
-	NotifyNodes       []NotifyNode   `xml:"NotifyNode"`
-	ApproverStep      int            `xml:"approverstep"`
+	Text              string      `xml:",chardata"`
+	SpNO              string      `xml:"SpNo"`
+	SpName            string      `xml:"SpName"`
+	SpStatus          string      `xml:"SpStatus"`
+	TemplateID        string      `xml:"TemplateId"`
+	ApplyTime         string      `xml:"ApplyTime"`
+	Applier           *Applier    `xml:"Applyer"`
+	SpRecord          []*SPRecord `xml:"SpRecord"`
+	Notifier          *Notifier   `xml:"Notifyer"`
+	Comments          *Comments   `xml:"Comments"`
+	StatusChangeEvent string      `xml:"StatuChangeEvent"`
+	// new fields
+	ThirdNo        string         `xml:"ThirdNo"`
+	OpenSpName     string         `xml:"OpenSpName"`
+	OpenTemplateId string         `xml:"OpenTemplateId"`
+	OpenSpStatus   int            `xml:"OpenSpStatus"`
+	ApplyUserName  string         `xml:"ApplyUserName"`
+	ApplyUserId    string         `xml:"ApplyUserId"`
+	ApplyUserParty string         `xml:"ApplyUserParty"`
+	ApplyUserImage string         `xml:"ApplyUserImage"`
+	ApprovalNodes  []ApprovalNode `xml:"ApprovalNodes"`
+	NotifyNodes    []NotifyNode   `xml:"NotifyNode"`
+	ApproverStep   int            `xml:"approverstep"`
 }
 
 type EventOpenApprovalChange struct {
