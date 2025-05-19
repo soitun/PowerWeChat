@@ -210,7 +210,7 @@ type ApprovalNode struct {
 	NodeStatus    int            `xml:"NodeStatus"`
 	NodeAttr      int            `xml:"NodeAttr"`
 	NodeType      int            `xml:"NodeType"`
-	ApprovalItems []ApprovalItem `xml:"Items>Item"`
+	ApprovalItems []ApprovalItem `xml:"Items"`
 }
 
 type ApprovalItem struct {
@@ -250,7 +250,7 @@ type ApprovalInfo struct {
 	ApplyUserParty string         `xml:"ApplyUserParty"`
 	ApplyUserImage string         `xml:"ApplyUserImage"`
 	ApprovalNodes  []ApprovalNode `xml:"ApprovalNodes"`
-	NotifyNodes    []NotifyNode   `xml:"NotifyNode"`
+	NotifyNodes    []NotifyNode   `xml:"NotifyNodes"`
 	ApproverStep   int            `xml:"approverstep"`
 }
 
