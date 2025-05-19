@@ -207,10 +207,14 @@ type Comments struct {
 }
 
 type ApprovalNode struct {
-	NodeStatus    int            `xml:"NodeStatus"`
-	NodeAttr      int            `xml:"NodeAttr"`
-	NodeType      int            `xml:"NodeType"`
-	ApprovalItems []ApprovalItem `xml:"Items"`
+	NodeStatus    int             `xml:"NodeStatus"`
+	NodeAttr      int             `xml:"NodeAttr"`
+	NodeType      int             `xml:"NodeType"`
+	ApprovalItems []ApprovalItems `xml:"Items"`
+}
+
+type ApprovalItems struct {
+	ApprovalItem []ApprovalItem `xml:"ApprovalNode"`
 }
 
 type ApprovalItem struct {
@@ -220,6 +224,10 @@ type ApprovalItem struct {
 	ItemStatus int    `xml:"ItemStatus"`
 	ItemSpeech string `xml:"ItemSpeech"`
 	ItemOpTime int64  `xml:"ItemOpTime"`
+}
+
+type NotifyNodes struct {
+	NotifyNode NotifyNode `xml:"NotifyNode"`
 }
 
 type NotifyNode struct {
