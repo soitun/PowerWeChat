@@ -240,6 +240,7 @@ type ApprovalInfo struct {
 	Notifier          *Notifier   `xml:"Notifyer"`
 	Comments          *Comments   `xml:"Comments"`
 	StatusChangeEvent string      `xml:"StatuChangeEvent"`
+
 	// new fields
 	ThirdNo        string         `xml:"ThirdNo"`
 	OpenSpName     string         `xml:"OpenSpName"`
