@@ -206,18 +206,51 @@ type Comments struct {
 	CommentID       string           `xml:"CommentId"`
 }
 
+type ApprovalNode struct {
+	NodeStatus    int            `xml:"NodeStatus"`
+	NodeAttr      int            `xml:"NodeAttr"`
+	NodeType      int            `xml:"NodeType"`
+	ApprovalItems []ApprovalItem `xml:"Items>Item"`
+}
+
+type ApprovalItem struct {
+	ItemName   string `xml:"ItemName"`
+	ItemUserId string `xml:"ItemUserId"`
+	ItemImage  string `xml:"ItemImage"`
+	ItemStatus int    `xml:"ItemStatus"`
+	ItemSpeech string `xml:"ItemSpeech"`
+	ItemOpTime int64  `xml:"ItemOpTime"`
+}
+
+type NotifyNode struct {
+	ItemName   string `xml:"ItemName"`
+	ItemUserId string `xml:"ItemUserId"`
+	ItemImage  string `xml:"ItemImage"`
+}
+
 type ApprovalInfo struct {
-	Text              string      `xml:",chardata"`
-	SpNO              string      `xml:"SpNo"`
-	SpName            string      `xml:"SpName"`
-	SpStatus          string      `xml:"SpStatus"`
-	TemplateID        string      `xml:"TemplateId"`
-	ApplyTime         string      `xml:"ApplyTime"`
-	Applier           *Applier    `xml:"Applyer"`
-	SpRecord          []*SPRecord `xml:"SpRecord"`
-	Notifier          *Notifier   `xml:"Notifyer"`
-	Comments          *Comments   `xml:"Comments"`
-	StatusChangeEvent string      `xml:"StatuChangeEvent"`
+	Text              string         `xml:",chardata"`
+	SpNO              string         `xml:"SpNo"`
+	SpName            string         `xml:"SpName"`
+	SpStatus          string         `xml:"SpStatus"`
+	TemplateID        string         `xml:"TemplateId"`
+	ApplyTime         string         `xml:"ApplyTime"`
+	Applier           *Applier       `xml:"Applyer"`
+	SpRecord          []*SPRecord    `xml:"SpRecord"`
+	Notifier          *Notifier      `xml:"Notifyer"`
+	Comments          *Comments      `xml:"Comments"`
+	StatusChangeEvent string         `xml:"StatuChangeEvent"`
+	ThirdNo           string         `xml:"ThirdNo"`
+	OpenSpName        string         `xml:"OpenSpName"`
+	OpenTemplateId    string         `xml:"OpenTemplateId"`
+	OpenSpStatus      int            `xml:"OpenSpStatus"`
+	ApplyUserName     string         `xml:"ApplyUserName"`
+	ApplyUserId       string         `xml:"ApplyUserId"`
+	ApplyUserParty    string         `xml:"ApplyUserParty"`
+	ApplyUserImage    string         `xml:"ApplyUserImage"`
+	ApprovalNodes     []ApprovalNode `xml:"ApprovalNodes"`
+	NotifyNodes       []NotifyNode   `xml:"NotifyNode"`
+	ApproverStep      int            `xml:"approverstep"`
 }
 
 type EventOpenApprovalChange struct {
