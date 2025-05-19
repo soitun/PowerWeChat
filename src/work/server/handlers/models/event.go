@@ -207,14 +207,14 @@ type Comments struct {
 }
 
 type ApprovalNode struct {
-	NodeStatus    int             `xml:"NodeStatus" json:"NodeStatus"`
-	NodeAttr      int             `xml:"NodeAttr" json:"NodeAttr"`
-	NodeType      int             `xml:"NodeType" json:"NodeType"`
-	ApprovalItems []ApprovalItems `xml:"Items" json:"Items"`
+	NodeStatus    int           `xml:"NodeStatus" json:"NodeStatus"`
+	NodeAttr      int           `xml:"NodeAttr" json:"NodeAttr"`
+	NodeType      int           `xml:"NodeType" json:"NodeType"`
+	ApprovalItems ApprovalItems `xml:"Items" json:"Items"`
 }
 
 type ApprovalItems struct {
-	ApprovalItem []ApprovalItem `xml:"ApprovalNode" json:"ApprovalNode"`
+	ApprovalItem []ApprovalItem `xml:"Item" json:"Item"`
 }
 
 type ApprovalItem struct {
@@ -227,13 +227,17 @@ type ApprovalItem struct {
 }
 
 type NotifyNodes struct {
-	NotifyNode NotifyNode `xml:"NotifyNode" json:"NotifyNode"`
+	NotifyNode []NotifyNode `xml:"NotifyNode" json:"NotifyNode"`
 }
 
 type NotifyNode struct {
 	ItemName   string `xml:"ItemName" json:"ItemName"`
 	ItemUserId string `xml:"ItemUserId" json:"ItemUserId"`
 	ItemImage  string `xml:"ItemImage" json:"ItemImage"`
+}
+
+type ApprovalNodes struct {
+	ApprovalNode []ApprovalNode `xml:"ApprovalNode" json:"ApprovalNode"`
 }
 
 type ApprovalInfo struct {
@@ -251,17 +255,17 @@ type ApprovalInfo struct {
 
 	// new fields
 	// https://developer.work.weixin.qq.com/document/path/90240#%E5%AE%A1%E6%89%B9%E7%8A%B6%E6%80%81%E9%80%9A%E7%9F%A5%E4%BA%8B%E4%BB%B6
-	ThirdNo        string         `xml:"ThirdNo" json:"ThirdNo"`
-	OpenSpName     string         `xml:"OpenSpName" json:"OpenSpName"`
-	OpenTemplateId string         `xml:"OpenTemplateId" json:"OpenTemplateId"`
-	OpenSpStatus   int            `xml:"OpenSpStatus" json:"OpenSpStatus"`
-	ApplyUserName  string         `xml:"ApplyUserName" json:"ApplyUserName"`
-	ApplyUserId    string         `xml:"ApplyUserId" json:"ApplyUserId"`
-	ApplyUserParty string         `xml:"ApplyUserParty" json:"ApplyUserParty"`
-	ApplyUserImage string         `xml:"ApplyUserImage" json:"ApplyUserImage"`
-	ApprovalNodes  []ApprovalNode `xml:"ApprovalNodes" json:"ApprovalNodes"`
-	NotifyNodes    []NotifyNode   `xml:"NotifyNodes" json:"NotifyNodes"`
-	ApproverStep   int            `xml:"approverstep" json:"approverstep"`
+	ThirdNo        string        `xml:"ThirdNo" json:"ThirdNo"`
+	OpenSpName     string        `xml:"OpenSpName" json:"OpenSpName"`
+	OpenTemplateId string        `xml:"OpenTemplateId" json:"OpenTemplateId"`
+	OpenSpStatus   int           `xml:"OpenSpStatus" json:"OpenSpStatus"`
+	ApplyUserName  string        `xml:"ApplyUserName" json:"ApplyUserName"`
+	ApplyUserId    string        `xml:"ApplyUserId" json:"ApplyUserId"`
+	ApplyUserParty string        `xml:"ApplyUserParty" json:"ApplyUserParty"`
+	ApplyUserImage string        `xml:"ApplyUserImage" json:"ApplyUserImage"`
+	ApprovalNodes  ApprovalNodes `xml:"ApprovalNodes" json:"ApprovalNodes"`
+	NotifyNodes    NotifyNodes   `xml:"NotifyNodes" json:"NotifyNodes"`
+	ApproverStep   int           `xml:"approverstep" json:"approverstep"`
 }
 
 type EventOpenApprovalChange struct {
