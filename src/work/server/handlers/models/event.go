@@ -242,6 +242,7 @@ type ApprovalInfo struct {
 	StatusChangeEvent string      `xml:"StatuChangeEvent"`
 
 	// new fields
+	// https://developer.work.weixin.qq.com/document/path/90240#%E5%AE%A1%E6%89%B9%E7%8A%B6%E6%80%81%E9%80%9A%E7%9F%A5%E4%BA%8B%E4%BB%B6
 	ThirdNo        string         `xml:"ThirdNo"`
 	OpenSpName     string         `xml:"OpenSpName"`
 	OpenTemplateId string         `xml:"OpenTemplateId"`
