@@ -79,3 +79,10 @@ const (
 //func (res *ResponseWork) GetStatusCode() int {
 //	return 200
 //}
+
+type ResponseECommerce struct {
+	ResponseBase
+
+	ErrCode int    `json:"errcode,omitempty"`
+	ErrMsg  string `json:"errmsg,omitempty"`
+}
