@@ -8,6 +8,7 @@ type RequestAccountServiceSendMsg struct {
 	Text        *RequestAccountServiceMsgText        `json:"text,omitempty"`
 	Image       *RequestAccountServiceMsgImage       `json:"image,omitempty"`
 	Voice       *RequestAccountServiceMsgVoice       `json:"voice,omitempty"`
+	Video       *RequestAccountServiceMsgVideo       `json:"video,omitempty"`
 	File        *RequestAccountServiceMsgFile        `json:"file,omitempty"`
 	Link        *RequestAccountServiceMsgLink        `json:"link,omitempty"`
 	MiniProgram *RequestAccountServiceMsgMiniProgram `json:"miniprogram,omitempty"`
@@ -25,6 +26,10 @@ type RequestAccountServiceMsgImage struct {
 }
 
 type RequestAccountServiceMsgVoice struct {
+	MediaID string `json:"media_id"`
+}
+
+type RequestAccountServiceMsgVideo struct {
 	MediaID string `json:"media_id"`
 }
 
