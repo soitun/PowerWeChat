@@ -24,7 +24,7 @@ func NewClient(app kernel.ApplicationInterface) (*Client, error) {
 }
 
 // 配置客户联系「联系我」方式.
-// https://developer.work.weixin.qq.com/document/path/92572
+// https://developer.work.weixin.qq.com/document/path/92228
 func (comp *Client) Add(ctx context.Context, options *request2.RequestAddContactWay) (*response3.ResponseAddContactWay, error) {
 
 	result := &response3.ResponseAddContactWay{}

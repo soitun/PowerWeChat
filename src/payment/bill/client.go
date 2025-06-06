@@ -59,7 +59,7 @@ func (comp *Client) GetFlowBill(ctx context.Context, date string, accountType st
 	return result, err
 }
 
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_8.shtml
+// https://pay.weixin.qq.com/doc/v3/merchant/4013071238
 func (comp *Client) DownloadBill(ctx context.Context, requestDownload *power.RequestDownload, filePath string) (int64, error) {
 	return comp.StreamDownload(ctx, requestDownload, filePath)
 }
