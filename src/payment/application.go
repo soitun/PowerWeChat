@@ -361,6 +361,10 @@ func (app *Payment) HandleRefundedNotify(request *http.Request, closure func(mes
 	return notify.NewRefundNotify(app, request).Handle(closure)
 }
 
+func (app *Payment) HandleTransferBillsNotify(request *http.Request, closure func(message *request.RequestNotify, transaction *models.TransferBills, fail func(message string)) interface{}) (*http.Response, error) {
+	return notify.NewTransferBillsNotify(app, request).Handle(closure)
+}
+
 func (app *Payment) HandleScannedNotify(request *http.Request, closure func(message *request.RequestNotify, fail func(message string), alert func(message string)) interface{}) (*http.Response, error) {
 	return notify.NewScannedNotify(app, request).Handle(closure)
 }
