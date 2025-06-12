@@ -140,3 +140,36 @@ type Amount struct {
 	// 去掉非充值代金券退款金额后的退款金额，单位为分，退款金额=申请退款金额-非充值代金券退款金额，退款金额<=申请退款金额
 
 }
+
+// --- TransferBills models ----
+
+const WX_TRANSFERBILLS_STATE_SUCCESS = "SUCCESS"                     // 转账成功
+const WX_TRANSFERBILLS_STATE_ACCEPTED = "ACCEPTED"                   // 单据已受理
+const WX_TRANSFERBILLS_STATE_NOTPAY = "PROCESSING"                   // 单据处理中
+const WX_TRANSFERBILLS_STATE_WAIT_USER_CONFIRM = "WAIT_USER_CONFIRM" // 待收款用户确认，可拉起微信收款确认页面进行收款确认
+const WX_TRANSFERBILLS_STATE_TRANSFERING = "TRANSFERING"             // 转账中，转账结果尚未明确，可拉起微信收款确认页面再次重试确认收款
+const WX_TRANSFERBILLS_STATE_FAIL = "FAIL"                           // 转账失败
+const WX_TRANSFERBILLS_STATE_CANCELING = "CANCELING"                 // 撤销中
+const WX_TRANSFERBILLS_STATE_CANCELLED = "CANCELLED"                 // 已撤销
+
+// TransferBills
+type TransferBills struct {
+	// 商户单号：商户系统内部的商家单号，在商户系统内部唯一
+	OutBillNo string `json:"out_bill_no"`
+	// 商家转账订单号：微信单号，微信商家转账系统返回的唯一标识
+	TransferBillNo string `json:"transfer_bill_no"`
+	// 单据状态：商家转账订单状态
+	State string `json:"state"`
+	// 商户号：微信支付分配的商户号
+	MchId string `json:"mch_id"`
+	// 转账金额：转账总金额，单位为“分”
+	TransferAmount int `json:"transfer_amount"`
+	// 收款用户OpenID：用户在商户appid下的唯一标识
+	OpenId string `json:"open_id"`
+	// 失败原因：单已失败或者已退资金时，会返回订单失败原因
+	FailReason string `json:"fail_reason"`
+	// 单据创建时间：遵循rfc3339标准格式，格式为yyyy-MM-DDTHH:mm:ss+TIMEZONE
+	CreateTime string `json:"create_time"`
+	// 最后一次状态变更时间：遵循rfc3339标准格式，格式为yyyy-MM-DDTHH:mm:ss+TIMEZONE
+	UpdateTime string `json:"update_time"`
+}

@@ -35,7 +35,7 @@ func (comp *Client) GetCertificates(ctx context.Context) (*response.ResponseGetC
 }
 
 // Get RSA Public Key.
-// https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay_yhk.php?chapter=25_7&index=4
+// https://pay.weixin.qq.com/doc/v2/merchant/4011941097
 func (comp *Client) GetRSAPublicKey(ctx context.Context) (*response.ResponseGetPublicKey, error) {
 	config := comp.App.GetConfig()
 
