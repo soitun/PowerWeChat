@@ -8,7 +8,7 @@ go 1.23.0
 
 require (
 	github.com/ArtisanCloud/PowerLibs/v3 v3.3.2
-	github.com/ArtisanCloud/PowerSocialite/v3 v3.0.7
+	github.com/ArtisanCloud/PowerSocialite/v3 v3.0.8
 	github.com/go-playground/assert/v2 v2.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.6.3
