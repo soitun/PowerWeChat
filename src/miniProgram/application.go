@@ -12,6 +12,7 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/base"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/customerServiceMessage"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/dataCube"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/device"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/express"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/image"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/immediateDelivery"
@@ -96,6 +97,8 @@ type MiniProgram struct {
 	RiskControl *riskControl.Client
 
 	MiniDramaVOD *vod.Client
+
+	Device *device.Client
 
 	Config *kernel.Config
 
@@ -379,6 +382,12 @@ func NewMiniProgram(config *UserConfig, extraInfos ...*kernel.ExtraInfo) (*MiniP
 		return nil, err
 	}
 
+	//-------------- Device --------------
+	app.Device, err = device.RegisterProvider(app)
+	if err != nil {
+		return nil, err
+	}
+
 	//-------------- Virtual Pay --------------
 	app.VirtualPayment, err = virtualPayment.RegisterProvider(app)
 	if err != nil {
@@ -487,6 +496,9 @@ func (app *MiniProgram) GetComponent(name string) interface{} {
 
 	case "MiniDramaVDO":
 		return app.MiniDramaVOD
+
+	case "Device":
+		return app.Device
 
 	case "VirtualPayment":
 		return app.VirtualPayment
