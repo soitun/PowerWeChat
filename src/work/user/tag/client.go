@@ -3,6 +3,7 @@ package tag
 import (
 	"context"
 	"fmt"
+
 	"github.com/ArtisanCloud/PowerLibs/v3/object"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel"
 	response2 "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
@@ -109,6 +110,21 @@ func (comp *Client) List(ctx context.Context) (*response.ResponseTagList, error)
 	result := &response.ResponseTagList{}
 
 	_, err := comp.BaseClient.HttpGet(ctx, "cgi-bin/tag/list", nil, nil, result)
+
+	return result, err
+}
+
+// 删除标签成员
+// https://developer.work.weixin.qq.com/document/path/96283
+func (comp *Client) TagDelUsers(ctx context.Context, tagID int64, userList []string, partyList []string) (*response.ResponseTagDeleteUser, error) {
+
+	result := &response.ResponseTagDeleteUser{}
+
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/tag/deltagusers", &object.HashMap{
+		"tagid":     tagID,
+		"userlist":  userList,
+		"partylist": partyList,
+	}, nil, nil, result)
 
 	return result, err
 }
