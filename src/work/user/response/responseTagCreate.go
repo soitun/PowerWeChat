@@ -7,5 +7,5 @@ import (
 type ResponseTagCreate struct {
 	response.ResponseWork
 
-	TagID string `json:"tagid"`
+	TagID int64 `json:"tagid"`
 }
