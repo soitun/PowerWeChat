@@ -21,12 +21,13 @@ func NewAccessToken(app kernel.ApplicationInterface) (*AccessToken, error) {
 	cfg := app.GetConfig()
 	useStableToken := cfg.GetBool("stable_token_mode", false)
 	forceRefresh := cfg.GetBool("force_refresh", false)
+	baseUrl := cfg.GetString("http.base_uri", "https://api.weixin.qq.com/")
 	if useStableToken {
-		token.EndpointToGetToken = "https://api.weixin.qq.com/cgi-bin/stable_token"
+		token.EndpointToGetToken = baseUrl + "cgi-bin/stable_token"
 		token.StableTokenMode = true
 		token.ForceRefresh = forceRefresh
 	} else {
-		token.EndpointToGetToken = "https://api.weixin.qq.com/cgi-bin/token"
+		token.EndpointToGetToken = baseUrl + "cgi-bin/token"
 	}
 	token.OverrideGetCredentials()
 
