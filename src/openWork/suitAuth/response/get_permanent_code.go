@@ -16,6 +16,21 @@ type GetPermanentCodeResponse struct {
 	AuthInfo *AuthInfo `json:"auth_info,omitempty"`
 	// AuthUserInfo 授权管理员的信息
 	AuthUserInfo *AuthUserInfo `json:"auth_user_info,omitempty"`
+	// V2
+	RegisterCodeInfo `json:"register_code_info"`
+	State            string `json:"state"`
+
+	DealerCorpInfo `json:"dealer_corp_info"`
+}
+
+type RegisterCodeInfo struct {
+	RegisterCode string `json:"register_code"`
+	TemplateId   string `json:"template_id"`
+	State        string `json:"state"`
+}
+type DealerCorpInfo struct {
+	CorpId   string `json:"corpid"`
+	CorpName string `json:"corp_name"`
 }
 
 // AuthCorpInfo 授权方企业信息

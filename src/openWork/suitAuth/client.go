@@ -53,9 +53,34 @@ func (comp *Client) GetPermanentCode(ctx context.Context, authCode string) (*res
 	return &result, err
 }
 
+// 获取企业永久授权码 V2
+// https://developer.work.weixin.qq.com/document/path/100776
+func (comp *Client) GetPermanentCodeV2(ctx context.Context, authCode string) (*response.GetPermanentCodeResponse, error) {
+	var result response.GetPermanentCodeResponse
+	req := object.HashMap{
+		"auth_code": authCode,
+	}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/service/v2/get_permanent_code", &req, nil, nil, &result)
+
+	return &result, err
+}
+
 // 获取企业授权信息
 // https://developer.work.weixin.qq.com/document/10975#%E8%8E%B7%E5%8F%96%E4%BC%81%E4%B8%9A%E6%8E%88%E6%9D%83%E4%BF%A1%E6%81%AF
 func (comp *Client) GetAuthInfo(ctx context.Context, authCorpID string, permanentCode string) (*response.GetPermanentCodeResponse, error) {
+	var result response.GetPermanentCodeResponse
+	req := object.HashMap{
+		"auth_corpid":    authCorpID,
+		"permanent_code": permanentCode,
+	}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/service/get_auth_info", &req, nil, nil, &result)
+
+	return &result, err
+}
+
+// 获取企业授权信息 v2
+// https://developer.work.weixin.qq.com/document/path/100779
+func (comp *Client) GetAuthInfoV2(ctx context.Context, authCorpID string, permanentCode string) (*response.GetPermanentCodeResponse, error) {
 	var result response.GetPermanentCodeResponse
 	req := object.HashMap{
 		"auth_corpid":    authCorpID,
