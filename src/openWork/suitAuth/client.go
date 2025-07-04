@@ -86,7 +86,7 @@ func (comp *Client) GetAuthInfoV2(ctx context.Context, authCorpID string, perman
 		"auth_corpid":    authCorpID,
 		"permanent_code": permanentCode,
 	}
-	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/service/get_auth_info", &req, nil, nil, &result)
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/service/v2/get_auth_info", &req, nil, nil, &result)
 
 	return &result, err
 }
