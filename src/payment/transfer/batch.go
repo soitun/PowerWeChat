@@ -80,7 +80,7 @@ func (comp *BatchClient) QueryBatchDetail(ctx context.Context, batchID string, d
 }
 
 // 商家批次单号查询批次单API
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter4_3_5.shtml
+// https://pay.weixin.qq.com/doc/v3/merchant/4012458877
 func (comp *BatchClient) QueryOutBatchNO(ctx context.Context, outBatchNO string, needQueryDetail bool, offset int, limit int, detailStatus string) (*response.ResponseTrasferQueryOutBatchNO, error) {
 
 	result := &response.ResponseTrasferQueryOutBatchNO{}
@@ -92,7 +92,7 @@ func (comp *BatchClient) QueryOutBatchNO(ctx context.Context, outBatchNO string,
 		"detail_status":     detailStatus,
 	}
 
-	endpoint := fmt.Sprintf("/%s/transfer/batches/out_batch_no/%s", comp.Version, outBatchNO)
+	endpoint := fmt.Sprintf("/%s/transfer/batches/out-batch-no/%s", comp.Version, outBatchNO)
 	_, err := comp.Request(ctx, comp.Wrap(endpoint), query, http.MethodPost, &object.HashMap{}, false, nil, result)
 	return result, err
 }
