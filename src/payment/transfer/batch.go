@@ -92,7 +92,7 @@ func (comp *BatchClient) QueryOutBatchNO(ctx context.Context, outBatchNO string,
 		"detail_status":     detailStatus,
 	}
 
-	endpoint := fmt.Sprintf("/%s/transfer/batches/out_batch_no/%s", comp.Version, outBatchNO)
+	endpoint := fmt.Sprintf("/%s/transfer/batches/out-batch-no/%s", comp.Version, outBatchNO)
 	_, err := comp.Request(ctx, comp.Wrap(endpoint), query, http.MethodPost, &object.HashMap{}, false, nil, result)
 	return result, err
 }
