@@ -8,6 +8,7 @@ import (
 type ResponseProfitSharingOrder struct {
 	response.ResponsePayment
 
+	SubMchID      string              `json:"sub_mchid,omitempty"` // 服务商模式下返回
 	TransactionID string              `json:"transaction_id"`
 	OutOrderNO    string              `json:"out_order_no"`
 	OrderID       string              `json:"order_id"`
