@@ -29,13 +29,13 @@ type Receiver struct {
 }
 
 type RequestShareReturnV3 struct {
-	SubMchID    string  `json:"sub_mchid,omitempty"`    // 服务商模式下必填
-	OrderID     string  `json:"order_id,omitempty"`     // 微信分账单号，微信系统返回的唯一标识。微信分账单号和商户分账单号二选一填写
-	OutOrderNO  string  `json:"out_order_no,omitempty"` // 微信分账单号和商户分账单号二选一填写
-	OutReturnNO string  `json:"out_return_no"`          // 此回退单号是商户在自己后台生成的一个新的回退单号，在商户后台唯一
-	ReturnMchID string  `json:"return_mchid"`
-	Amount      float64 `json:"amount"`
-	Description string  `json:"description"`
+	SubMchID    string `json:"sub_mchid,omitempty"`    // 服务商模式下必填
+	OrderID     string `json:"order_id,omitempty"`     // 微信分账单号，微信系统返回的唯一标识。微信分账单号和商户分账单号二选一填写
+	OutOrderNO  string `json:"out_order_no,omitempty"` // 微信分账单号和商户分账单号二选一填写
+	OutReturnNO string `json:"out_return_no"`          // 此回退单号是商户在自己后台生成的一个新的回退单号，在商户后台唯一
+	ReturnMchID string `json:"return_mchid"`
+	Amount      int64  `json:"amount"`
+	Description string `json:"description"`
 }
 
 type RequestShareReturn struct {
