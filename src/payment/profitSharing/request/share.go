@@ -28,7 +28,7 @@ type Receiver struct {
 	FinishTime  time.Time `json:"finish_time,omitempty"`
 }
 
-type RequestShareReturnV3 struct {
+type RequestShareReturns struct {
 	SubMchID    string `json:"sub_mchid,omitempty"`    // 服务商模式下必填
 	OrderID     string `json:"order_id,omitempty"`     // 微信分账单号，微信系统返回的唯一标识。微信分账单号和商户分账单号二选一填写
 	OutOrderNO  string `json:"out_order_no,omitempty"` // 微信分账单号和商户分账单号二选一填写

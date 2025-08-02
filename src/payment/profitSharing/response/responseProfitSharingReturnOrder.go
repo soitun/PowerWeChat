@@ -9,7 +9,7 @@ import (
 // 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012526279
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466858
 
-type ResponseProfitSharingReturnOrderQuery struct {
+type ResponseProfitSharingReturnOrders struct {
 	response.ResponsePayment
 
 	SubMchID    string  `json:"sub_mchid,omitempty"`

@@ -50,13 +50,15 @@ func (comp *Client) Share(ctx context.Context, param *request.RequestShare) (*re
 // 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012525210
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466850
 
-func (comp *Client) Query(ctx context.Context, subMchID, transactionID, outOrderNO string) (*response.ResponseProfitSharingOrder, error) {
+func (comp *Client) Query(ctx context.Context, transactionID, outOrderNO string) (*response.ResponseProfitSharingOrder, error) {
 
 	result := &response.ResponseProfitSharingOrder{}
 
 	params := &object.StringMap{
 		"transaction_id": transactionID,
 	}
+	config := comp.App.GetConfig()
+	subMchID := config.GetString("sub_mchid", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*params)["sub_mchid"] = subMchID
@@ -72,9 +74,9 @@ func (comp *Client) Query(ctx context.Context, subMchID, transactionID, outOrder
 // 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012525287
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466854
 
-func (comp *Client) ReturnV3(ctx context.Context, param *request.RequestShareReturnV3) (*response.ResponseProfitSharingReturnOrderQuery, error) {
+func (comp *Client) ReturnOrders(ctx context.Context, param *request.RequestShareReturns) (*response.ResponseProfitSharingReturnOrders, error) {
 
-	result := &response.ResponseProfitSharingReturnOrderQuery{}
+	result := &response.ResponseProfitSharingReturnOrders{}
 
 	//options, err := object.StructToHashMapWithTag(param,"json")
 	options, err := object.StructToHashMap(param)
@@ -114,13 +116,15 @@ func (comp *Client) Return(ctx context.Context, data *request.RequestShareReturn
 // 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012526279
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466858
 
-func (comp *Client) QueryReturn(ctx context.Context, subMchID, outOrderNO, outReturnNO string) (*response.ResponseProfitSharingReturnOrderQuery, error) {
+func (comp *Client) QueryReturn(ctx context.Context, outOrderNO, outReturnNO string) (*response.ResponseProfitSharingReturnOrders, error) {
 
-	result := &response.ResponseProfitSharingReturnOrderQuery{}
+	result := &response.ResponseProfitSharingReturnOrders{}
 
 	params := &object.StringMap{
 		"out_order_no": outOrderNO,
 	}
+	config := comp.App.GetConfig()
+	subMchID := config.GetString("sub_mchid", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*params)["sub_mchid"] = subMchID
@@ -136,7 +140,7 @@ func (comp *Client) QueryReturn(ctx context.Context, subMchID, outOrderNO, outRe
 // 普通上商户：https://pay.weixin.qq.com/doc/v3/merchant/4012526374
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466860
 
-func (comp *Client) UnfreezeOrders(ctx context.Context, subMchID, transactionID, outOrderNO, description string) (*response.ResponseProfitSharingOrder, error) {
+func (comp *Client) UnfreezeOrders(ctx context.Context, transactionID, outOrderNO, description string) (*response.ResponseProfitSharingOrder, error) {
 
 	result := &response.ResponseProfitSharingOrder{}
 
@@ -146,6 +150,8 @@ func (comp *Client) UnfreezeOrders(ctx context.Context, subMchID, transactionID,
 		"description":    description,
 	}
 
+	config := comp.App.GetConfig()
+	subMchID := config.GetString("sub_mchid", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_mchid"] = subMchID
@@ -175,7 +181,7 @@ func (comp *Client) QueryTransactions(ctx context.Context, transactionID string)
 // 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012528995
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012690944
 func (comp *Client) AddReceiver(
-	ctx context.Context, subMchID, subAppID string,
+	ctx context.Context,
 	receiverType string, account string, name string,
 	relationType string, customRelation string) (*response.ResponseProfitSharingAddReceiver, error) {
 
@@ -191,10 +197,12 @@ func (comp *Client) AddReceiver(
 		"custom_relation": customRelation,
 	}
 
+	subMchID := config.GetString("sub_mchid", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_mchid"] = subMchID
 	}
+	subAppID := config.GetString("sub_appid", "")
 	if subAppID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_appid"] = subAppID
@@ -210,7 +218,7 @@ func (comp *Client) AddReceiver(
 // 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012529590
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466868
 func (comp *Client) DeleteReceiver(
-	ctx context.Context, subMchID, subAppID string,
+	ctx context.Context,
 	receiverType string, account string) (*response.ResponseProfitSharingDeleteReceiver, error) {
 
 	result := &response.ResponseProfitSharingDeleteReceiver{}
@@ -222,10 +230,12 @@ func (comp *Client) DeleteReceiver(
 		"account": account,
 	}
 
+	subMchID := config.GetString("sub_mchid", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_mchid"] = subMchID
 	}
+	subAppID := config.GetString("sub_appid", "")
 	if subAppID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_appid"] = subAppID
