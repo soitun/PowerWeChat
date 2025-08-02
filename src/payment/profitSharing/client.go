@@ -181,7 +181,7 @@ func (comp *Client) QueryTransactions(ctx context.Context, transactionID string)
 // 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012528995
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012690944
 func (comp *Client) AddReceiver(
-	ctx context.Context,
+	ctx context.Context, subMchID, subAppID string,
 	receiverType string, account string, name string,
 	relationType string, customRelation string) (*response.ResponseProfitSharingAddReceiver, error) {
 
@@ -197,12 +197,10 @@ func (comp *Client) AddReceiver(
 		"custom_relation": customRelation,
 	}
 
-	subMchID := config.GetString("sub_mchid", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_mchid"] = subMchID
 	}
-	subAppID := config.GetString("sub_appid", "")
 	if subAppID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_appid"] = subAppID
@@ -218,7 +216,7 @@ func (comp *Client) AddReceiver(
 // 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012529590
 // 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466868
 func (comp *Client) DeleteReceiver(
-	ctx context.Context,
+	ctx context.Context, subMchID, subAppID string,
 	receiverType string, account string) (*response.ResponseProfitSharingDeleteReceiver, error) {
 
 	result := &response.ResponseProfitSharingDeleteReceiver{}
@@ -230,12 +228,10 @@ func (comp *Client) DeleteReceiver(
 		"account": account,
 	}
 
-	subMchID := config.GetString("sub_mchid", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_mchid"] = subMchID
 	}
-	subAppID := config.GetString("sub_appid", "")
 	if subAppID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_appid"] = subAppID
