@@ -58,7 +58,7 @@ func (comp *Client) Query(ctx context.Context, transactionID, outOrderNO string)
 		"transaction_id": transactionID,
 	}
 	config := comp.App.GetConfig()
-	subMchID := config.GetString("sub_mchid", "")
+	subMchID := config.GetString("sub_mch_id", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*params)["sub_mchid"] = subMchID
@@ -124,7 +124,7 @@ func (comp *Client) QueryReturn(ctx context.Context, outOrderNO, outReturnNO str
 		"out_order_no": outOrderNO,
 	}
 	config := comp.App.GetConfig()
-	subMchID := config.GetString("sub_mchid", "")
+	subMchID := config.GetString("sub_mch_id", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*params)["sub_mchid"] = subMchID
@@ -151,7 +151,7 @@ func (comp *Client) UnfreezeOrders(ctx context.Context, transactionID, outOrderN
 	}
 
 	config := comp.App.GetConfig()
-	subMchID := config.GetString("sub_mchid", "")
+	subMchID := config.GetString("sub_mch_id", "")
 	if subMchID != "" {
 		// 服务商模式下需要此参数
 		(*options)["sub_mchid"] = subMchID
