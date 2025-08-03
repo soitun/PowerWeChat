@@ -5,11 +5,14 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
 )
 
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter8_1_1.shtml
+// 查询分账回退结果
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012526279
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466858
 
-type ResponseProfitSharingReturnOrder struct {
+type ResponseProfitSharingReturnOrders struct {
 	response.ResponsePayment
 
+	SubMchID    string  `json:"sub_mchid,omitempty"`
 	OrderID     string  `json:"order_id"`
 	OutOrderNO  string  `json:"out_order_no"`
 	OutReturnNO string  `json:"out_return_no"`

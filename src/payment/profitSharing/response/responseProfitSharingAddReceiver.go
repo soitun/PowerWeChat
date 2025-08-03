@@ -7,6 +7,7 @@ import "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
 type ResponseProfitSharingAddReceiver struct {
 	response.ResponsePayment
 
+	SubMchID       string `json:"sub_mchid,omitempty"`
 	Type           string `json:"type"`
 	Account        string `json:"account"`
 	Name           string `json:"name,omitempty"`

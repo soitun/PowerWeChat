@@ -24,8 +24,10 @@ func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	}, nil
 }
 
-// Share Orders.
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter8_1_1.shtml
+// 请求分账.
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012524936
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012690683
+
 func (comp *Client) Share(ctx context.Context, param *request.RequestShare) (*response.ResponseProfitSharingOrder, error) {
 
 	result := &response.ResponseProfitSharingOrder{}
@@ -44,18 +46,43 @@ func (comp *Client) Share(ctx context.Context, param *request.RequestShare) (*re
 	return result, err
 }
 
-// Query Profit Sharing Result.
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter8_1_2.shtml
-func (comp *Client) Query(ctx context.Context, transactionID string, outOrderNO string) (*response.ResponseProfitSharingOrder, error) {
+// 查询分账结果
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012525210
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466850
+
+func (comp *Client) Query(ctx context.Context, transactionID, outOrderNO string) (*response.ResponseProfitSharingOrder, error) {
 
 	result := &response.ResponseProfitSharingOrder{}
 
 	params := &object.StringMap{
 		"transaction_id": transactionID,
 	}
+	config := comp.App.GetConfig()
+	subMchID := config.GetString("sub_mch_id", "")
+	if subMchID != "" {
+		// 服务商模式下需要此参数
+		(*params)["sub_mchid"] = subMchID
+	}
 
 	endpoint := comp.Wrap(fmt.Sprintf("/v3/profitsharing/orders/%s", outOrderNO))
-	_, err := comp.Request(ctx, endpoint, params, http.MethodPost, &object.HashMap{}, false, nil, result)
+	_, err := comp.Request(ctx, endpoint, params, http.MethodGet, &object.HashMap{}, false, nil, result)
+
+	return result, err
+}
+
+// 请求分账回退（ApiV3）.
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012525287
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466854
+
+func (comp *Client) ReturnOrders(ctx context.Context, param *request.RequestShareReturns) (*response.ResponseProfitSharingReturnOrders, error) {
+
+	result := &response.ResponseProfitSharingReturnOrders{}
+
+	//options, err := object.StructToHashMapWithTag(param,"json")
+	options, err := object.StructToHashMap(param)
+
+	endpoint := comp.Wrap("/v3/profitsharing/return-orders")
+	_, err = comp.Request(ctx, endpoint, nil, http.MethodPost, options, false, nil, result)
 
 	return result, err
 }
@@ -85,27 +112,35 @@ func (comp *Client) Return(ctx context.Context, data *request.RequestShareReturn
 	return result, err
 }
 
-// Query Return Orders Result.
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter8_1_2.shtml
+// 查询分账回退结果
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012526279
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466858
 
-func (comp *Client) QueryReturn(ctx context.Context, outOrderNO string, outReturnNO string) (*response.ResponseProfitSharingReturnOrder, error) {
+func (comp *Client) QueryReturn(ctx context.Context, outOrderNO, outReturnNO string) (*response.ResponseProfitSharingReturnOrders, error) {
 
-	result := &response.ResponseProfitSharingReturnOrder{}
+	result := &response.ResponseProfitSharingReturnOrders{}
 
 	params := &object.StringMap{
 		"out_order_no": outOrderNO,
 	}
+	config := comp.App.GetConfig()
+	subMchID := config.GetString("sub_mch_id", "")
+	if subMchID != "" {
+		// 服务商模式下需要此参数
+		(*params)["sub_mchid"] = subMchID
+	}
 
 	endpoint := comp.Wrap(fmt.Sprintf("/v3/profitsharing/return-orders/%s", outReturnNO))
-	_, err := comp.Request(ctx, endpoint, params, http.MethodPost, &object.HashMap{}, false, nil, result)
+	_, err := comp.Request(ctx, endpoint, params, http.MethodGet, &object.HashMap{}, false, nil, result)
 
 	return result, err
 }
 
-// UnFreeze Orders.
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter8_1_5.shtml
+// 解冻剩余资金
+// 普通上商户：https://pay.weixin.qq.com/doc/v3/merchant/4012526374
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466860
 
-func (comp *Client) UnfreezeOrders(ctx context.Context, transactionID string, outOrderNO string, description string) (*response.ResponseProfitSharingOrder, error) {
+func (comp *Client) UnfreezeOrders(ctx context.Context, transactionID, outOrderNO, description string) (*response.ResponseProfitSharingOrder, error) {
 
 	result := &response.ResponseProfitSharingOrder{}
 
@@ -115,29 +150,38 @@ func (comp *Client) UnfreezeOrders(ctx context.Context, transactionID string, ou
 		"description":    description,
 	}
 
+	config := comp.App.GetConfig()
+	subMchID := config.GetString("sub_mch_id", "")
+	if subMchID != "" {
+		// 服务商模式下需要此参数
+		(*options)["sub_mchid"] = subMchID
+	}
+
 	endpoint := comp.Wrap("/v3/profitsharing/orders/unfreeze")
 	_, err := comp.Request(ctx, endpoint, nil, http.MethodPost, options, false, nil, result)
 
 	return result, err
 }
 
-// Query Transaction Amounts.
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter8_1_6.shtml
+// 查询剩余待分金额.
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012457939
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012457927
 
 func (comp *Client) QueryTransactions(ctx context.Context, transactionID string) (*response.ResponseProfitSharingTransaction, error) {
 
 	result := &response.ResponseProfitSharingTransaction{}
 
 	endpoint := comp.Wrap(fmt.Sprintf("/v3/profitsharing/transactions/%s/amounts", transactionID))
-	_, err := comp.Request(ctx, endpoint, nil, http.MethodPost, &object.HashMap{}, false, nil, result)
+	_, err := comp.Request(ctx, endpoint, nil, http.MethodGet, &object.HashMap{}, false, nil, result)
 
 	return result, err
 }
 
-// Add Receiver.
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter8_1_8.shtml
+// 添加分账接收方
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012528995
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012690944
 func (comp *Client) AddReceiver(
-	ctx context.Context,
+	ctx context.Context, subMchID, subAppID string,
 	receiverType string, account string, name string,
 	relationType string, customRelation string) (*response.ResponseProfitSharingAddReceiver, error) {
 
@@ -153,16 +197,27 @@ func (comp *Client) AddReceiver(
 		"custom_relation": customRelation,
 	}
 
+	if subMchID != "" {
+		// 服务商模式下需要此参数
+		(*options)["sub_mchid"] = subMchID
+	}
+	if subAppID != "" {
+		// 服务商模式下需要此参数
+		(*options)["sub_appid"] = subAppID
+	}
+
 	endpoint := comp.Wrap("/v3/profitsharing/receivers/add")
 	_, err := comp.Request(ctx, endpoint, nil, http.MethodPost, options, false, nil, result)
 
 	return result, err
 }
 
-// Delete Receiver.
-// https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter8_1_9.shtml
-
-func (comp *Client) DeleteReceiver(ctx context.Context, receiverType string, account string) (*response.ResponseProfitSharingDeleteReceiver, error) {
+// 删除分账接收方
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012529590
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012466868
+func (comp *Client) DeleteReceiver(
+	ctx context.Context, subMchID, subAppID string,
+	receiverType string, account string) (*response.ResponseProfitSharingDeleteReceiver, error) {
 
 	result := &response.ResponseProfitSharingDeleteReceiver{}
 
@@ -173,27 +228,41 @@ func (comp *Client) DeleteReceiver(ctx context.Context, receiverType string, acc
 		"account": account,
 	}
 
+	if subMchID != "" {
+		// 服务商模式下需要此参数
+		(*options)["sub_mchid"] = subMchID
+	}
+	if subAppID != "" {
+		// 服务商模式下需要此参数
+		(*options)["sub_appid"] = subAppID
+	}
+
 	endpoint := comp.Wrap("/v3/profitsharing/receivers/delete")
 	_, err := comp.Request(ctx, endpoint, nil, http.MethodPost, options, false, nil, result)
 
 	return result, err
 }
 
-// Get Bills.
-// https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter8_1_11.shtml
+// 申请分账账单
+// 普通商户：https://pay.weixin.qq.com/doc/v3/merchant/4012529628
+// 服务商：https://pay.weixin.qq.com/doc/v3/partner/4012761140
 
 func (comp *Client) GetBills(ctx context.Context, subMchID string, billDate string, tarType string) (*response.ResponseProfitSharingGetBills, error) {
 
 	result := &response.ResponseProfitSharingGetBills{}
 
 	params := &object.StringMap{
-		"sub_mchid": subMchID,
 		"bill_date": billDate,
 		"tar_type":  tarType,
 	}
 
+	if subMchID != "" {
+		// 服务商模式下需要此参数
+		(*params)["sub_mchid"] = subMchID
+	}
+
 	endpoint := comp.Wrap("/v3/profitsharing/bills")
-	_, err := comp.Request(ctx, endpoint, params, http.MethodPost, &object.HashMap{}, false, nil, result)
+	_, err := comp.Request(ctx, endpoint, params, http.MethodGet, &object.HashMap{}, false, nil, result)
 
 	return result, err
 }
