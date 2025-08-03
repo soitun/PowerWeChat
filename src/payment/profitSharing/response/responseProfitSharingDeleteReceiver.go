@@ -7,6 +7,7 @@ import "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
 type ResponseProfitSharingDeleteReceiver struct {
 	response.ResponsePayment
 
-	Type    string `json:"type"`
-	Account string `json:"accountService"`
+	SubMchID string `json:"sub_mchid,omitempty"`
+	Type     string `json:"type"`
+	Account  string `json:"accountService"`
 }
