@@ -266,7 +266,6 @@ func (client *BaseClient) Request(ctx context.Context, url string, method string
 		if (*options)["form_params"] != nil {
 			if str, ok := (*options)["form_params"].(string); ok {
 				r := bytes.NewBufferString(str)
-				fmt.Println("请求的 body====", r.String())
 				df.Body(r)
 			} else {
 				df.Json((*options)["form_params"])
