@@ -36,6 +36,7 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/urlLink"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/urlScheme"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/virtualPayment"
+	wxaSecOrder "github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/wxa/sec/order"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/miniProgram/wxaCode"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/officialAccount/server"
 	"net/http"
@@ -77,7 +78,8 @@ type MiniProgram struct {
 
 	NearbyPoi *nearbyPoi.Client
 
-	WXACode *wxaCode.Client
+	WXACode     *wxaCode.Client
+	WXASecOrder *wxaSecOrder.Client
 
 	URLScheme *urlScheme.Client
 	URLLink   *urlLink.Client
@@ -315,6 +317,11 @@ func NewMiniProgram(config *UserConfig, extraInfos ...*kernel.ExtraInfo) (*MiniP
 	if err != nil {
 		return nil, err
 	}
+	//-------------- register WXASecOrder --------------
+	app.WXASecOrder, err = wxaSecOrder.RegisterProvider(app)
+	if err != nil {
+		return nil, err
+	}
 
 	//-------------- register URLScheme --------------
 	app.URLScheme, err = urlScheme.RegisterProvider(app)
@@ -465,6 +472,8 @@ func (app *MiniProgram) GetComponent(name string) interface{} {
 
 	case "WXACode":
 		return app.WXACode
+	case "WXASecOrder":
+		return app.WXASecOrder
 
 	case "URLScheme":
 		return app.URLScheme
