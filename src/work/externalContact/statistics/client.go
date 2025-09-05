@@ -2,6 +2,7 @@ package statistics
 
 import (
 	"context"
+
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/statistics/request"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/statistics/response"
@@ -39,6 +40,17 @@ func (comp *Client) Statistic(ctx context.Context, options *request.RequestStati
 	result := &response.ResponseStatistic{}
 
 	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/externalcontact/groupchat/statistic", options, nil, nil, result)
+
+	return result, err
+}
+
+// 获取「群聊数据统计」数据 - 按自然日聚合的方式
+// https://developer.work.weixin.qq.com/document/path/92133
+func (comp *Client) StatisticByDay(ctx context.Context, options *request.RequestStatisticByDay) (*response.ResponseStatistic, error) {
+
+	result := &response.ResponseStatistic{}
+
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/externalcontact/groupchat/statistic_group_by_day", options, nil, nil, result)
 
 	return result, err
 }
