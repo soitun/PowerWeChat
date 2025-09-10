@@ -2,6 +2,12 @@ package request
 
 import "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/power"
 
+type RequestStatisticByDay struct {
+	DayBeginTime int64          `json:"day_begin_time" `
+	DayEndTime   int64          `json:"day_end_time"`
+	OwnerFilter  *power.HashMap `json:"owner_filter"`
+}
+
 type RequestStatistic struct {
 	DayBeginTime int64          `json:"day_begin_time" `
 	DayEndTime   int64          `json:"day_end_time"`
