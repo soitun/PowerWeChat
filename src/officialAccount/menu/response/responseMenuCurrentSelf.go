@@ -10,6 +10,7 @@ type ButtonItem struct {
 	PagePath string `json:"pagepath,omitempty"`
 	Key      string `json:"key,omitempty"`
 	Value    string `json:"value,omitempty"`
+	MediaID  string `json:"media_id,omitempty"`
 
 	NewsInfo struct {
 		List []struct {
