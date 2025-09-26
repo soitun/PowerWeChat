@@ -47,9 +47,9 @@ func resolveLibPathIfDir(path string) (string, error) {
 	case types.SDKPlatformLinuxAMD64, types.SDKPlatformLinuxARM64:
 		name = "libWeWorkFinanceSdk_C.so"
 	case types.SDKPlatformDarwinARM64:
-		name = "libWeWorkFinanceSdk_C.dylib"
+		name = "libWeWorkFinanceSdk_C.so"
 	case types.SDKPlatformWindowsAMD64:
-		name = "WeWorkFinanceSdk_C.dll"
+		name = "WeWorkFinanceSdk.dll"
 	default:
 		return "", fmt.Errorf("未支持的平台: %s_%s", runtime.GOOS, runtime.GOARCH)
 	}

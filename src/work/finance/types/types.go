@@ -22,7 +22,7 @@ func (p SDKPlatform) LibFilename() (string, error) {
 	case SDKPlatformLinuxAMD64, SDKPlatformLinuxARM64:
 		return "libWeWorkFinanceSdk_C.so", nil
 	case SDKPlatformWindowsAMD64:
-		return "WeWorkFinanceSdk_C.dll", nil
+		return "WeWorkFinanceSdk.dll", nil
 	case SDKPlatformDarwinARM64:
 		return "libWeWorkFinanceSdk_C.so", nil
 	default:
