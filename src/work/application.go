@@ -33,6 +33,8 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/statistics"
 	tag2 "github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/tag"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/transfer"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/finance"
+	contractSDK "github.com/ArtisanCloud/PowerWeChat/v3/src/work/finance/contract"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/groupRobot"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/idConvert"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/invoice"
@@ -122,6 +124,8 @@ type Work struct {
 	Media *media.Client
 	Menu  *menu.Client
 
+	FinanceSDK contractSDK.Client
+
 	OA            *oa.Client
 	OACalendar    *calendar.Client
 	OADial        *dial.Client
@@ -157,9 +161,11 @@ type UserConfig struct {
 	AESKey      string
 	CallbackURL string
 
-	StableTokenMode bool
-	ForceRefresh    bool
-	RefreshToken    string
+	StableTokenMode    bool
+	ForceRefresh       bool
+	RefreshToken       string
+	FinanceSDKPath     string
+	FinanceSDKPlatform string
 
 	ResponseType string
 	Log          Log
@@ -339,6 +345,12 @@ func NewWork(config *UserConfig) (*Work, error) {
 		return nil, err
 	}
 
+	//-------------- finance contract sdk --------------
+	app.FinanceSDK, err = finance.RegisterProvider(app)
+	if err != nil {
+		return nil, err
+	}
+
 	//-------------- oa --------------
 	app.OA,
 		app.OACalendar,
@@ -501,6 +513,9 @@ func (app *Work) GetComponent(name string) interface{} {
 	case "OAApproval":
 		return app.OAApproval
 
+	case "FinanceSDK":
+		return app.FinanceSDK
+
 	case "MsgAudit":
 		return app.MsgAudit
 	case "CorpGroup":
@@ -560,6 +575,10 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 			"env":    userConfig.Log.ENV,
 			"stdout": userConfig.Log.Stdout,
 		},
+
+		"finance_sdk.platform": userConfig.FinanceSDKPlatform,
+		"finance_sdk.path":     userConfig.FinanceSDKPath,
+
 		"oauth.callbacks": userConfig.OAuth.Callback,
 		"oauth.scopes":    userConfig.OAuth.Scopes,
 		"cache":           userConfig.Cache,
