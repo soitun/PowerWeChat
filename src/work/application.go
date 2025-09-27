@@ -33,8 +33,6 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/statistics"
 	tag2 "github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/tag"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/transfer"
-	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/finance"
-	contractSDK "github.com/ArtisanCloud/PowerWeChat/v3/src/work/finance/contract"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/groupRobot"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/idConvert"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/invoice"
@@ -123,8 +121,6 @@ type Work struct {
 
 	Media *media.Client
 	Menu  *menu.Client
-
-	FinanceSDK contractSDK.Client
 
 	OA            *oa.Client
 	OACalendar    *calendar.Client
@@ -345,12 +341,6 @@ func NewWork(config *UserConfig) (*Work, error) {
 		return nil, err
 	}
 
-	//-------------- finance contract sdk --------------
-	app.FinanceSDK, err = finance.RegisterProvider(app)
-	if err != nil {
-		return nil, err
-	}
-
 	//-------------- oa --------------
 	app.OA,
 		app.OACalendar,
@@ -512,9 +502,6 @@ func (app *Work) GetComponent(name string) interface{} {
 		return app.OAWeDrive
 	case "OAApproval":
 		return app.OAApproval
-
-	case "FinanceSDK":
-		return app.FinanceSDK
 
 	case "MsgAudit":
 		return app.MsgAudit
