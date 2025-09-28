@@ -560,6 +560,7 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 			"env":    userConfig.Log.ENV,
 			"stdout": userConfig.Log.Stdout,
 		},
+
 		"oauth.callbacks": userConfig.OAuth.Callback,
 		"oauth.scopes":    userConfig.OAuth.Scopes,
 		"cache":           userConfig.Cache,
