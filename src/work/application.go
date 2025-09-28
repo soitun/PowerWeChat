@@ -157,11 +157,9 @@ type UserConfig struct {
 	AESKey      string
 	CallbackURL string
 
-	StableTokenMode    bool
-	ForceRefresh       bool
-	RefreshToken       string
-	FinanceSDKPath     string
-	FinanceSDKPlatform string
+	StableTokenMode bool
+	ForceRefresh    bool
+	RefreshToken    string
 
 	ResponseType string
 	Log          Log
@@ -562,9 +560,6 @@ func MapUserConfig(userConfig *UserConfig) (*object.HashMap, error) {
 			"env":    userConfig.Log.ENV,
 			"stdout": userConfig.Log.Stdout,
 		},
-
-		"finance_sdk.platform": userConfig.FinanceSDKPlatform,
-		"finance_sdk.path":     userConfig.FinanceSDKPath,
 
 		"oauth.callbacks": userConfig.OAuth.Callback,
 		"oauth.scopes":    userConfig.OAuth.Scopes,

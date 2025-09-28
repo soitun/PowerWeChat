@@ -64,9 +64,6 @@ func GetWorkConfig() *work.UserConfig {
 			ENV:   os.Getenv("work.env"),
 		},
 
-		FinanceSDKPath:     os.Getenv("wecom_finance_sdk_path"),
-		FinanceSDKPlatform: os.Getenv("wecom_finance_sdk_platform"),
-
 		Http: work.Http{
 			ProxyURI: "",
 		},
