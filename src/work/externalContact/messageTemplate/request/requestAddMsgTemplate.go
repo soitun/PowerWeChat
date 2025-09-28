@@ -12,9 +12,9 @@ type RequestAddMsgTemplate struct {
 	ChatType       string                     `json:"chat_type"`
 	ExternalUserID []string                   `json:"external_userid"`
 	ChatIdList     []string                   `json:"chat_id_list"`
-	TagFilter      TagFilter                  `json:"tag_filter"`
-	Sender         string                     `json:"sender"`
+	TagFilter      TagFilter                  `json:"tag_filter,omitempty"`
+	Sender         string                     `json:"sender,omitempty"`
 	AllowSelect    bool                       `json:"allow_select"`
-	Text           *TextOfMessage             `json:"text"`
-	Attachments    []MessageTemplateInterface `json:"attachments"`
+	Text           *TextOfMessage             `json:"text,omitempty"`
+	Attachments    []MessageTemplateInterface `json:"attachments,omitempty"`
 }
