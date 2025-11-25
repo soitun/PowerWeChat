@@ -31,7 +31,7 @@ func (comp *Client) FundBalance(ctx context.Context, accountType string) (*respo
 	result := &response.ResponseFundBalance{}
 
 	endpoint := "/v3/merchant/fund/balance/" + accountType
-	_, err := comp.Request(ctx, endpoint, &object.StringMap{}, http.MethodGet, &object.HashMap{}, false, nil, result)
+	_, err := comp.SafeRequestV3(ctx, endpoint, &object.StringMap{}, http.MethodGet, &object.HashMap{}, nil, result)
 
 	return result, err
 }
