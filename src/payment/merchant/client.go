@@ -7,6 +7,7 @@ import (
 	payment "github.com/ArtisanCloud/PowerWeChat/v3/src/payment/kernel"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/payment/merchant/request"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/payment/merchant/response"
+	"net/http"
 )
 
 type Client struct {
@@ -21,6 +22,18 @@ func NewClient(app payment.ApplicationPaymentInterface) (*Client, error) {
 	return &Client{
 		baseClient,
 	}, nil
+}
+
+// 查询平台账户实时余额
+// https://pay.weixin.qq.com/doc/v3/partner/4012476700
+func (comp *Client) FundBalance(ctx context.Context, accountType string) (*response.ResponseFundBalance, error) {
+
+	result := &response.ResponseFundBalance{}
+
+	endpoint := "/v3/merchant/fund/balance/" + accountType
+	_, err := comp.Request(ctx, endpoint, &object.StringMap{}, http.MethodGet, &object.HashMap{}, false, nil, result)
+
+	return result, err
 }
 
 // 图片上传API
