@@ -34,6 +34,10 @@ type SelfButton struct {
 	Key        string     `json:"key"`
 	Value      string     `json:"value,omitempty"`
 	URL        string     `json:"url,omitempty"`
+	MediaId    string     `json:"media_id,omitempty"`
+	Appid      string     `json:"appid,omitempty"`
+	Pagepath   string     `json:"pagepath,omitempty"`
+	ArticleId  string     `json:"article_id,omitempty"`
 	SubButtons *SubButton `json:"sub_button"`
 }
 
