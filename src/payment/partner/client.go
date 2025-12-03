@@ -195,3 +195,15 @@ func (comp *Client) Close(ctx context.Context, tradeNo string) (*response2.Respo
 
 	return result, err
 }
+
+// 查询平台账户实时余额
+// https://pay.weixin.qq.com/doc/v3/partner/4012476700
+func (comp *Client) FundBalance(ctx context.Context, accountType string) (*response.ResponseFundBalance, error) {
+
+	result := &response.ResponseFundBalance{}
+
+	endpoint := "/v3/merchant/fund/balance/" + accountType
+	_, err := comp.SafeRequestV3(ctx, endpoint, &object.StringMap{}, http.MethodGet, &object.HashMap{}, nil, result)
+
+	return result, err
+}
