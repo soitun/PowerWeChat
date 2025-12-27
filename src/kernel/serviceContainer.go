@@ -73,15 +73,30 @@ func (container *ServiceContainer) getBaseConfig() *object.HashMap {
 			"base_uri": "https://api.weixin.qq.com/",
 		},
 	}
+
+}
+
+func (container *ServiceContainer) InitConfig() {
+	basicConfig := container.getBaseConfig()
+	container.Config = object.ReplaceHashMapRecursive(
+		nil,
+		basicConfig,
+		container.DefaultConfig,
+		container.UserConfig,
+	)
 }
 
 func (container *ServiceContainer) GetConfig() *object.HashMap {
-
-	// init container config
-	basicConfig := container.getBaseConfig()
-
-	// merge config
-	container.Config = object.ReplaceHashMapRecursive(container.Config, basicConfig, container.DefaultConfig, container.UserConfig)
-	//fmt.Dump(container.Config)
 	return container.Config
 }
+
+//func (container *ServiceContainer) GetConfig() *object.HashMap {
+//
+//	// init container config
+//	basicConfig := container.getBaseConfig()
+//
+//	// merge config
+//	container.Config = object.ReplaceHashMapRecursive(container.Config, basicConfig, container.DefaultConfig, container.UserConfig)
+//	//fmt.Dump(container.Config)
+//	return container.Config
+//}

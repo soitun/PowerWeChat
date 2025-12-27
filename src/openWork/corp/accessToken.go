@@ -48,7 +48,10 @@ func (accessToken *AccessToken) OverrideGetEndpoint() {
 	app := accessToken.App
 	token := app.GetComponent("SuiteAccessToken").(*suit.AccessToken)
 	accessToken.GetEndpoint = func() (string, error) {
-		suiteAccessToken, _ := token.AccessToken.GetToken(context.Background(), false)
+		suiteAccessToken, err := token.AccessToken.GetToken(context.Background(), false)
+		if err != nil {
+			return "", err
+		}
 		return accessToken.EndpointToGetToken + `?suite_access_token=` + url.QueryEscape(suiteAccessToken.AccessToken), nil
 	}
 }
