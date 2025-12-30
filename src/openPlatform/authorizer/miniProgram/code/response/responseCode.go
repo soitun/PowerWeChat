@@ -28,7 +28,7 @@ type ResponseSubmitAudit struct {
 
 	Type    string `json:"type"`
 	MediaID string `json:"mediaid"`
-	AuditID string `json:"auditid"`
+	AuditID int    `json:"auditid"`
 }
 
 type ResponseGetAuditStatus struct {
