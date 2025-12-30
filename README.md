@@ -275,10 +275,6 @@ Michael Hu
 
 申请添加好友时，请备注产品名称，比如：“我关注PowerWechat”
 
-<img src="https://powerx.artisan-cloud.com/assets/contact-qr-matrix-x.f35142ca.jpg" alt="请扫我" style="display:inline; width: 150px;"/>
-
-North Wang
-
-<img src="https://powerx.artisan-cloud.com/assets/contact_qr_north.d68f0fd0.jpg" alt="请扫我" style="display:inline; width: 150px;"/>
+<img src="https://powerwechat.artisan-cloud.com/assets/contact-qr-matrix-x.CMxSV8Gs.jpg" alt="请扫我" style="display:inline; width: 150px;"/>
 
 
