@@ -25,11 +25,15 @@ func NewClient(app kernel.ApplicationInterface) (*Client, error) {
 
 // 查询小程序用户隐私保护指引
 // https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/privacy_config/get_privacy_setting.html#请求地址
-func (comp *Client) Get(ctx context.Context) (*response.ResponseGet, error) {
+func (comp *Client) Get(ctx context.Context, privacyVer int) (*response.ResponseGet, error) {
 
 	result := &response.ResponseGet{}
 
-	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/component/getprivacysetting", nil, nil, nil, result)
+	params := &object.HashMap{
+		"privacy_ver": privacyVer,
+	}
+
+	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/component/getprivacysetting", params, nil, nil, result)
 
 	return result, err
 
