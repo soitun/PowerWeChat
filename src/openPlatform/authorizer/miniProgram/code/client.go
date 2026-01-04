@@ -2,13 +2,14 @@ package code
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/ArtisanCloud/PowerLibs/v3/object"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel"
 	response2 "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/openPlatform/authorizer/miniProgram/code/request"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/openPlatform/authorizer/miniProgram/code/response"
 	response4 "github.com/ArtisanCloud/PowerWeChat/v3/src/work/media/response"
-	"net/http"
 )
 
 type Client struct {
@@ -128,7 +129,7 @@ func (comp *Client) Release(ctx context.Context) (*response2.ResponseOpenPlatfor
 
 	result := &response2.ResponseOpenPlatform{}
 
-	_, err := comp.BaseClient.HttpPostJson(ctx, "wxa/release", nil, nil, nil, result)
+	_, err := comp.BaseClient.HttpPostJson(ctx, "wxa/release", &object.HashMap{}, nil, nil, result)
 
 	return result, err
 
