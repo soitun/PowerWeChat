@@ -25,10 +25,12 @@ type UGCDeclare struct {
 }
 
 type RequestSubmitAudit struct {
-	ItemList      []*Item      `json:"item_list"`
-	FeedbackInfo  string       `json:"feedback_info"`
-	FeedbackStuff string       `json:"feedback_stuff"`
-	PreviewInfo   *PreviewInfo `json:"preview_info"`
-	VersionDesc   string       `json:"version_desc"`
-	UGCDeclare    *UGCDeclare  `json:"ugc_declare"`
+	ItemList         []*Item      `json:"item_list"`
+	FeedbackInfo     string       `json:"feedback_info"`
+	FeedbackStuff    string       `json:"feedback_stuff"`
+	PreviewInfo      *PreviewInfo `json:"preview_info"`
+	VersionDesc      string       `json:"version_desc"`
+	UGCDeclare       *UGCDeclare  `json:"ugc_declare"`
+	PrivacyApiNotUse bool         `json:"privacy_api_not_use"`
+	OrderPath        string       `json:"order_path"`
 }
