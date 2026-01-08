@@ -56,7 +56,8 @@ func (comp *Client) BuildConfig(ctx context.Context, jsApiList []string, debug b
 
 	signature, err := comp.ConfigSignature(ctx, url, "", 0)
 	if err != nil {
-		return power.HashMapToPower(signature), err
+		sign, _ := power.HashMapToPower(signature)
+		return sign, err
 	}
 	config := object.MergeHashMap(&object.HashMap{
 		"debug":       debug,
