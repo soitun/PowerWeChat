@@ -130,7 +130,7 @@ func (c *Client) GetAgentTicket(
 		"cgi-bin/ticket/get",
 		"GET",
 		&object.HashMap{
-			"query": map[string]string{
+			"query": &object.StringMap{
 				"type": ticketType,
 			},
 		},
