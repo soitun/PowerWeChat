@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"reflect"
+
 	"github.com/ArtisanCloud/PowerLibs/v3/object"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel"
 	response2 "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/messageTemplate/request"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/work/externalContact/messageTemplate/response"
-	"reflect"
 )
 
 type Client struct {
@@ -71,10 +72,10 @@ func (comp *Client) GetGroupMsgSendResult(ctx context.Context, msgID string, use
 
 	result := &response.ResponseGetGroupMsgSendResult{}
 	options := &object.HashMap{
-		"msgid":       msgID,
-		"userid":      userID,
-		"limit":       limit,
-		"msgcursorid": cursor,
+		"msgid":  msgID,
+		"userid": userID,
+		"limit":  limit,
+		"cursor": cursor,
 	}
 	_, err := comp.BaseClient.HttpPostJson(ctx, "cgi-bin/externalcontact/get_groupmsg_send_result", options, nil, nil, result)
 
