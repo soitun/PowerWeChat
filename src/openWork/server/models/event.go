@@ -23,6 +23,7 @@ const (
 	InfoTypeCorpArchAuth       InfoType = "corp_arch_auth"
 	InfoTypeApproveSpecialAuth InfoType = "approve_special_auth"
 	InfoTypeCancelSpecialAuth  InfoType = "cancel_special_auth"
+	InfoTypeChangeAppAdmin     InfoType = "change_app_admin"
 )
 
 type ChangeType = string
@@ -114,6 +115,8 @@ func (msg BaseEvent) ToEvent() (IEvent, error) {
 		return new(EventCorpArchAuth), nil
 	case InfoTypeApproveSpecialAuth, InfoTypeCancelSpecialAuth:
 		return new(EventSpecialAuth), nil
+	case InfoTypeChangeAppAdmin:
+		return new(EventChangeAppAdmin), nil
 	default:
 		return nil, errors.New("unknown event")
 	}
@@ -214,4 +217,9 @@ type EventSpecialAuth struct {
 	BaseEvent
 	AuthCorpID string `xml:"AuthCorpId"`
 	AuthType   string `xml:"AuthType"`
+}
+
+type EventChangeAppAdmin struct {
+	BaseEvent
+	AgentID string `xml:"AgentID"`
 }
