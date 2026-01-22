@@ -91,7 +91,7 @@ func (ev BaseEvent) GetTimestamp() int64 {
 func (msg BaseEvent) ToEvent() (IEvent, error) {
 	infoType := msg.GetInfoType()
 	if infoType == "" {
-		if msg.Event == EventTypeChangeAppAdmin {
+		if msg.Event == string(EventTypeChangeAppAdmin) {
 			return new(EventChangeAppAdmin), nil
 		}
 		return nil, errors.New(string(msg.Event))
