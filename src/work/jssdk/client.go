@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/ArtisanCloud/PowerLibs/v3/object"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/basicService/jssdk"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel"
 	response2 "github.com/ArtisanCloud/PowerWeChat/v3/src/work/jssdk/response"
-	"net/http"
-	"time"
 )
 
 type Client struct {
@@ -48,7 +49,7 @@ func (comp *Client) GetAgentConfigArray(
 	url string,
 	nonce string,
 	timestamp int64,
-) *object.HashMap {
+) (*object.HashMap, error) {
 
 	// url 为空时使用默认
 	if url == "" {
@@ -68,7 +69,7 @@ func (comp *Client) GetAgentConfigArray(
 	// 获取 agent ticket
 	ticketInfo, err := comp.GetAgentTicket(request.Context(), agentID, false, "agent_config")
 	if err != nil {
-		return nil
+		return nil, err
 	}
 	ticket := ticketInfo["ticket"].(string)
 
@@ -82,7 +83,7 @@ func (comp *Client) GetAgentConfigArray(
 		"timestamp": timestamp,
 		"url":       url,
 		"signature": signature,
-	}
+	}, nil
 }
 
 func (comp *Client) GetTicket(ctx context.Context) (*response2.ResponseGetTicket, error) {
@@ -97,7 +98,7 @@ func (comp *Client) GetTicket(ctx context.Context) (*response2.ResponseGetTicket
 	return result, err
 }
 
-func (c *Client) GetAgentTicket(
+func (comp *Client) GetAgentTicket(
 	ctx context.Context,
 	agentID int,
 	refresh bool,
@@ -112,20 +113,22 @@ func (c *Client) GetAgentTicket(
 		"powerwechat.work.jssdk.ticket.%d.%s.%s",
 		agentID,
 		ticketType,
-		c.GetAppID(),
+		comp.GetAppID(),
 	)
 
-	if !refresh && c.Cache.Has(cacheKey) {
-		value, err := c.Cache.Get(cacheKey, nil)
+	if !refresh && comp.Cache.Has(cacheKey) {
+		value, err := comp.Cache.Get(cacheKey, nil)
 		if err == nil {
-			if data, ok := value.(object.HashMap); ok {
-				return data, nil
+			if data, ok := value.(map[string]interface{}); ok {
+				hashMap := object.HashMap(data)
+				return hashMap, nil
 			}
 		}
 	}
 
 	resp := object.HashMap{}
-	_, err := c.BaseClient.RequestRaw(
+
+	_, err := comp.BaseClient.RequestRaw(
 		ctx,
 		"cgi-bin/ticket/get",
 		"GET",
@@ -141,12 +144,16 @@ func (c *Client) GetAgentTicket(
 		return nil, err
 	}
 
+	if resp.Get("errcode").(float64) != 0 {
+		return nil, errors.New(resp.Get("errmsg").(string))
+	}
+
 	expiresIn := int(resp["expires_in"].(float64))
 	ttl := time.Duration(expiresIn-500) * time.Second
 
-	_ = c.Cache.Set(cacheKey, resp, ttl)
+	_ = comp.Cache.Set(cacheKey, resp, ttl)
 
-	if !c.Cache.Has(cacheKey) {
+	if !comp.Cache.Has(cacheKey) {
 		return nil, errors.New("failed to cache jssdk ticket")
 	}
 
