@@ -10,6 +10,7 @@ import (
 )
 
 type InfoType = string
+type EventType = string
 
 const (
 	InfoTypeSuiteTicket        InfoType = "suite_ticket"
@@ -23,8 +24,9 @@ const (
 	InfoTypeCorpArchAuth       InfoType = "corp_arch_auth"
 	InfoTypeApproveSpecialAuth InfoType = "approve_special_auth"
 	InfoTypeCancelSpecialAuth  InfoType = "cancel_special_auth"
-	InfoTypeChangeAppAdmin     InfoType = "change_app_admin"
 )
+
+const EventTypeChangeAppAdmin EventType = "change_app_admin"
 
 type ChangeType = string
 
@@ -87,7 +89,14 @@ func (ev BaseEvent) GetTimestamp() int64 {
 }
 
 func (msg BaseEvent) ToEvent() (IEvent, error) {
-	switch msg.GetInfoType() {
+	infoType := msg.GetInfoType()
+	if infoType == "" {
+		if msg.Event == EventTypeChangeAppAdmin {
+			return new(EventChangeAppAdmin), nil
+		}
+		return nil, errors.New(string(msg.Event))
+	}
+	switch infoType {
 	case InfoTypeSuiteTicket:
 		return new(EventSuiteTicket), nil
 	case InfoTypeCreateAuth:
@@ -115,8 +124,6 @@ func (msg BaseEvent) ToEvent() (IEvent, error) {
 		return new(EventCorpArchAuth), nil
 	case InfoTypeApproveSpecialAuth, InfoTypeCancelSpecialAuth:
 		return new(EventSpecialAuth), nil
-	case InfoTypeChangeAppAdmin:
-		return new(EventChangeAppAdmin), nil
 	default:
 		return nil, errors.New("unknown event")
 	}
