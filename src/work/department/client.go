@@ -53,10 +53,11 @@ func (comp *Client) Delete(ctx context.Context, id int) (*response.ResponseDepar
 func (comp *Client) List(ctx context.Context, id int) (*response.ResponseDepartmentList, error) {
 
 	result := &response.ResponseDepartmentList{}
-
-	_, err := comp.BaseClient.HttpGet(ctx, "cgi-bin/department/list", &object.StringMap{
-		"id": fmt.Sprintf("%d", id),
-	}, nil, result)
+	query := &object.StringMap{}
+	if id > 0 {
+		(*query)["id"] = fmt.Sprintf("%d", id)
+	}
+	_, err := comp.BaseClient.HttpGet(ctx, "cgi-bin/department/list", query, nil, result)
 
 	return result, err
 }
